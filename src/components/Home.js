@@ -1,8 +1,9 @@
 import React from "react";
 import {Form, Button, Image} from 'react-bootstrap';
-import DatePicker from "react-datepicker";
+import DatePicker from 'react-datepicker';
+import history from '../helpers/history';
  
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/Home.css';
 import img_1 from '../images/3.jpg';
 import img_2 from '../images/2.jpg';
@@ -15,6 +16,7 @@ class Home extends React.Component {
             startDate: new Date()
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     
     handleChange = date => {
@@ -22,6 +24,10 @@ class Home extends React.Component {
             startDate: date
         });
     };
+
+    handleSubmit(){
+        history.push('/customer-infor');
+    }
 
     render(){
 
@@ -33,43 +39,51 @@ class Home extends React.Component {
                     <div className="col-md-6">
                         <div className="mb-2 font-weight-bold text-success"> MUA VÉ TRỰC TUYẾN</div>
                         <div className="border border-success">
-                            <div className="row pt-3 pb-3 pl-3 pr-3">
-                                <div className="col-md-6">
-                                    <Form.Group controlId="formLocationDeparture">
-                                        <Form.Label className="font-weight-bold">Điểm khởi hành</Form.Label>
-                                        <Form.Control as="select">
-                                            <option>Choose...</option>
-                                            <option>...</option>
-                                        </Form.Control>
-                                    </Form.Group>
-                                    <Form.Group controlId="formDateDeparture">
-                                        <Form.Label className="font-weight-bold">Ngày khởi hành</Form.Label>
-                                        <DatePicker className="input-date rounded-sm"
-                                            selected={startDate}
-                                            onChange={this.handleChange}
-                                        />
-                                    </Form.Group>
+                            <Form onSubmit = {this.handleSubmit}>
+                                <div className="row pt-3 pb-3 pl-3 pr-3">
+                                    <div className="col-md-6">
+                                        <Form.Group controlId="formLocationDeparture">
+                                            <Form.Label className="font-weight-bold">Điểm khởi hành</Form.Label>
+                                            <Form.Control as="select">
+                                                <option>Choose...</option>
+                                                <option>...</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                        <Form.Group controlId="formDateDeparture">
+                                            <Form.Label className="font-weight-bold">Ngày khởi hành</Form.Label>
+                                            <DatePicker className="input-date rounded-sm"
+                                                selected={startDate}
+                                                onChange={this.handleChange}
+                                            />
+                                        </Form.Group>
+                                        <i class="material-icons">&#xe400;</i>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <Form.Group controlId="formDestination">
+                                            <Form.Label className="font-weight-bold">Điểm đến</Form.Label>
+                                            <Form.Control as="select">
+                                                <option>Choose...</option>
+                                                <option>...</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                        <Form.Group controlId="formNumberOfTicket">
+                                            <Form.Label className="font-weight-bold">Số lượng vé</Form.Label>
+                                            <Form.Control as="select">
+                                                <option>Choose...</option>
+                                                <option>...</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </div>
                                     
                                 </div>
-                                <div className="col-md-6">
-                                    <Form.Group controlId="formDestination">
-                                        <Form.Label className="font-weight-bold">Điểm đến</Form.Label>
-                                        <Form.Control as="select">
-                                            <option>Choose...</option>
-                                            <option>...</option>
-                                        </Form.Control>
-                                    </Form.Group>
-                                    <Form.Group controlId="formNumberOfTicket">
-                                        <Form.Label className="font-weight-bold">Số lượng vé</Form.Label>
-                                        <Form.Control as="select">
-                                            <option>Choose...</option>
-                                            <option>...</option>
-                                        </Form.Control>
-                                    </Form.Group>
+                                <div className="row text-center">
+                                    <div className="col-md-12 mb-3">
+                                        <Button type="submit" disabled={false} className="w-50 font-weight-bold" variant="success">
+                                            Mua Vé
+                                        </Button>
+                                    </div>
                                 </div>
-                                
-                            </div>
-                            <div className="row text-center"><div className="col-md-12 mb-3"><Button className="w-50 font-weight-bold" variant="success"> Mua Vé </Button></div></div>
+                            </Form>
                         </div>
                     </div>
                     <div className="mt-4">
