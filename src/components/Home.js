@@ -38,7 +38,7 @@ class Home extends React.Component {
                 <div className="row ">
                     <div className="col-md-6">
                         <div className="mb-2 font-weight-bold text-success"> MUA VÉ TRỰC TUYẾN</div>
-                        <div className="border border-success">
+                        <div className="border border-success rounded">
                             <Form onSubmit = {this.handleSubmit}>
                                 <div className="row pt-3 pb-3 pl-3 pr-3">
                                     <div className="col-md-6">
@@ -56,7 +56,6 @@ class Home extends React.Component {
                                                 onChange={this.handleChange}
                                             />
                                         </Form.Group>
-                                        <i class="material-icons">&#xe400;</i>
                                     </div>
                                     <div className="col-md-6">
                                         <Form.Group controlId="formDestination">

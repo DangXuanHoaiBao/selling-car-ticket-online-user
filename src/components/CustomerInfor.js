@@ -22,9 +22,8 @@ class CustomerInfor extends React.Component{
         });
     }
 
-    handleSubmit(e){
-        e.preventDefault();
-        history.push('/payment')
+    handleSubmit(){
+        history.push('/checkout')
     }
 
     render(){
@@ -36,7 +35,7 @@ class CustomerInfor extends React.Component{
                 <div className="row ">
                     <div className="col-md-6">
                         <div className="mb-2 font-weight-bold text-success"> NHẬP THÔNG TIN KHÁCH HÀNG</div>
-                        <div className="border border-success">
+                        <div className="border border-success rounded">
                             <Form onSubmit={this.handleSubmit}>
                                 <div className="row mt-3 mb-4 ml-3 mr-3">
                                     <div className="col-md-6">
@@ -90,7 +89,7 @@ class CustomerInfor extends React.Component{
                     </div>
                     <div className="col-md-6">
                     <div className="mb-2 font-weight-bold text-success"> MỘT SỐ ĐIỀU KHOẢN CẦN LƯU Ý DÀNH CHO KHÁCH HÀNG</div>
-                        <div className="border border-success">
+                        <div className="border border-success rounded">
                             <div className="row mt-3 mb-3 ml-3 mr-3">
                                 <span> 
                                     <i class="material-icons ">looks_one</i>
