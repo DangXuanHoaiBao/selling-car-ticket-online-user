@@ -92,24 +92,24 @@ class CustomerInfor extends React.Component{
                         <div className="border border-success rounded">
                             <div className="row mt-3 mb-3 ml-3 mr-3">
                                 <span> 
-                                    <i class="material-icons ">looks_one</i>
+                                    <i class="material-icons ">filter_1</i>
                                     &nbsp;&nbsp;Quý khách vui lòng mang email có chứa mã vé đến văn phòng để đổi vé lên xe trước giờ xuất bến
                                     ít nhất 60 phút để chúng tôi trung chuyển.
                                 </span>
                                 <p/>
                                 <span>
-                                    <i className="material-icons">looks_two</i>
+                                    <i className="material-icons">filter_2</i>
                                     &nbsp;&nbsp;Thông tin hành khách phải chính xác, nếu không sẽ không thể lên xe hoặc hủy/đổi vé.
                                 </span>
                                 <p/>
                                 <span>
-                                    <i className="material-icons">looks_3</i>
+                                    <i className="material-icons">filter_3</i>
                                     &nbsp;&nbsp;Quý khách không được đổi trả vé vào các ngày lễ tết (ngày thường quý khách được chuyển đổi hoặc
                                     hủy vé một lần duy nhất trước giờ xe chạy 24 giờ), phí hủy vé 10%.
                                 </span>
                                 <p/>
                                 <span>
-                                    <i className="material-icons">looks_4</i>
+                                    <i className="material-icons">filter_4</i>
                                     &nbsp;&nbsp;Nếu quý khách có nhu cầu trung chuyển, vui lòng liên hệ số điện thoại 1900 6067 trước khi đặt vé,
                                     chúng tôi sẽ không đón/trung chuyển tại những điểm xe trung chuyển không thể tới được.
                                 </span>

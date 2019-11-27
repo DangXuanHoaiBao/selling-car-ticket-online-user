@@ -1,6 +1,11 @@
 .text-link{
   color: white !important;
   text-decoration: none !important;
+  
+}
+
+.bg-black{
+  background-color: black;
 }
 
 .bg-green{
