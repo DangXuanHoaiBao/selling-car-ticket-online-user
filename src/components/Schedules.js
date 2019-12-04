@@ -1,5 +1,6 @@
 import React from 'react';
 import {Table, Button} from 'react-bootstrap';
+import '../styles/App.css';
 
 const Schedules = () => {
 
@@ -15,7 +16,7 @@ const Schedules = () => {
                     <div className="text-success font-weight-bold">Tên Tuyến Đường &nbsp; <i class=" fas fa-exchange-alt"></i></div>
                     <Table responsive="sm">
                         <thead>
-                            <tr>
+                            <tr className="">
                                 <th>STT</th>
                                 <th>Bến đi</th>
                                 <th>Bến đến</th>

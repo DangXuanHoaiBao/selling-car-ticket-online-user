@@ -15,7 +15,6 @@ function App() {
 
       <Navbar bg="dark" variant="dark">
         <div className="container">
-          {/* {<Navbar.Brand > <Link to="/" className="text-link"> Home </Link> </Navbar.Brand> } */}
           <Nav className="ml-auto">
             <Nav.Item>
               <Link to="/login" className="text-link mr-2"> Đăng Nhập </Link> 
@@ -72,14 +71,6 @@ function App() {
       </Switch>
 
       <Card className="bg-green text-white mt-3">
-        {/* <Card.Body>
-          <blockquote className="blockquote mb-0">
-            
-            <footer >
-              Someone famous in <cite title="Source Title">Source Title</cite>
-            </footer>
-          </blockquote>
-        </Card.Body> */}
         <div className="container mt-3 mb-3 text-dark">
           <div className="row mb-3">
             <div className="col-md-2 border-right">
