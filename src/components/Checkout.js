@@ -1,8 +1,8 @@
-import React from 'react';
-import StripeCheckout from 'react-stripe-checkout';
-import {connect} from 'react-redux';
-import {Spinner, Form} from 'react-bootstrap';
-import checkout from '../actions/checkout';
+import React from "react";
+import StripeCheckout from "react-stripe-checkout";
+import {connect} from "react-redux";
+import userActions from "../actions/user";
+import history from "../helpers/history";
 
 class Checkout extends React.Component {
   constructor(props){
@@ -11,58 +11,59 @@ class Checkout extends React.Component {
   }
   
   handleToken(token){
-    const { checkout } = this.props;
+    const { checkout, createFare, createTrip } = this.props;
+    const fareInfo = history.location.state;
+
     checkout(token);
+    createFare(fareInfo);
+    createTrip(fareInfo);
   }
 
   render(){
-    
-    const {checkoutRequest, checkoutSuccess} = this.props;
+
+    const fareInfo = history.location.state;
 
     return(
       <div className="container">
-        <div className="row">
+        <div className="row justify-content-center">
           <div className="col-md-6">
             <div className="mb-2 font-weight-bold text-success"> THÔNG TIN ĐẶT VÉ</div>
-            <div className="border border-success rounded">
-              <Form onSubmit={this.handleSubmit}>
-                  <div className="row mt-3 mb-4 ml-3 mr-3">
-                      <div className="col-md-12">
-                          <Form.Group controlId="form">
-                              <Form.Label className="font-weight-bold">Tuyến</Form.Label>
-                              <Form.Control type="text"/>
-                          </Form.Group>
-                          <Form.Group controlId="formDepartureDate">
-                              <Form.Label className="font-weight-bold">Ngày Đi</Form.Label>
-                              <Form.Control type="text"  />
-                          </Form.Group>
-                          <Form.Group controlId="form">
-                              <Form.Label className="font-weight-bold">Điểm Lên Xe</Form.Label>
-                              <Form.Control type="text"  />
-                          </Form.Group>
-                          <Form.Group controlId="formName">
-                              <Form.Label className="font-weight-bold">Họ Tên</Form.Label>
-                              <Form.Control type="text" />
-                          </Form.Group>
-                          <Form.Group controlId="formEmail">
-                              <Form.Label className="font-weight-bold">Email</Form.Label>
-                              <Form.Control type="email" />
-                          </Form.Group>
-                          <Form.Group controlId="formTotalMoney">
-                              <Form.Label className="font-weight-bold">Tổng Tiền</Form.Label>
-                              <Form.Control type="text" />
-                          </Form.Group>
-                      </div>
-                  </div>
-                  {(checkoutRequest && !checkoutSuccess) ? <Spinner animation="border" size="sm" /> : ''}
-              </Form>
-              <div className="row justify-content-center mb-3">
-                <StripeCheckout 
-                  stripeKey='pk_test_RknGlS5ASjG2BGAygpTfcRh700UlGTyYsI'
-                  amount = {2500}  
-                  token = {this.handleToken}
-                />
-              </div>
+              <div className="border border-success rounded">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <th>Tuyến:</th>
+                      <td>{fareInfo.departure} ---> {fareInfo.destination} </td>
+                    </tr>
+                    <tr>
+                      <th>Ngày đi:</th>
+                      <td>{fareInfo.date.d}/{fareInfo.date.m}/{fareInfo.date.y}</td>
+                    </tr>
+                    <tr>
+                      <th>Điểm lên xe:</th>
+                      <td>{fareInfo.getOnDeparture}</td>
+                    </tr>
+                    <tr>
+                      <th>Họ tên:</th>
+                      <td>{fareInfo.fullName}</td>
+                    </tr>
+                    <tr>
+                      <th>Email:</th>
+                      <td>{fareInfo.email}</td>
+                    </tr>
+                    <tr>
+                      <th>Tổng tiền:</th>
+                        <td>{fareInfo.fare}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className="row justify-content-center mb-3">
+                  <StripeCheckout 
+                    stripeKey="pk_test_RknGlS5ASjG2BGAygpTfcRh700UlGTyYsI"
+                    amount = {fareInfo.fare}  
+                    token = {this.handleToken}
+                  />
+                </div>
             </div>
           </div>
         </div>
@@ -71,13 +72,11 @@ class Checkout extends React.Component {
   }
 }
 
-const mapStateToProps = (state) =>({
-  checkoutRequest: state.checkoutRequest,
-  checkoutSuccess: state.checkoutSuccess
-});
 
 const actionCreators = {
-  checkout
+    checkout: userActions.checkout,
+    createFare: userActions.createFare,
+    createTrip: userActions.createTrip
 }
 
-export default connect(mapStateToProps, actionCreators)(Checkout);
+export default connect(null, actionCreators)(Checkout);

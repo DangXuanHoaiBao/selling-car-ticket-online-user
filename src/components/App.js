@@ -1,13 +1,17 @@
-import React from 'react';
-import {Navbar, Nav, Button, Image, Card} from 'react-bootstrap';
-import {Router, Switch, Route, Link} from 'react-router-dom';
-import '../styles/App.css';
-import Home from './Home';
-import history from '../helpers/history';
-import CustomerInfor from './CustomerInfor';
-import Checkout from './Checkout';
-import Schedules from './Schedules';
-import logo_mhh from '../images/logo-mhh.PNG';
+import React from "react";
+import {Navbar, Nav, Button, Image, Card} from "react-bootstrap";
+import {Router, Switch, Route, Link} from "react-router-dom";
+import "../styles/App.css";
+import Home from "./Home";
+import history from "../helpers/history";
+import CustomerInfor from "./CustomerInfor";
+import Checkout from "./Checkout";
+import Schedules from "./Schedules";
+import SchedulesDetail from "./SchedulesDetail";
+import logo_mhh from "../images/logo-mhh.PNG";
+import ChairNumber from "./ChairNumber";
+import Login from "./Login";
+import SignUp from "./SignUp";
 
 function App() {
   return (
@@ -56,16 +60,28 @@ function App() {
       </div>
       
       <Switch>
-        <Route exact path='/customer-infor'>
+        <Route exact path="/sign-up">
+          <SignUp/>
+        </Route>
+        <Route exact path="/login">
+          <Login/>
+        </Route>
+        <Route exact path="/customer-infor">
           <CustomerInfor />
         </Route>
-        <Route exact path='/checkout'>
+        <Route exact path="/checkout">
           <Checkout />
         </Route>
-        <Route exact path='/schedules'>
+        <Route exact path="/schedules">
           <Schedules />
         </Route>
-        <Route exact path='/'>
+        <Route exact path="/schedules-detail">
+          <SchedulesDetail /> 
+        </Route>
+        <Route exact path="/chair-number">
+          <ChairNumber/>
+        </Route>
+        <Route exact path="/">
           <Home />
         </Route>
       </Switch>

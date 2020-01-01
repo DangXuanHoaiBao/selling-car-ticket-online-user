@@ -1,37 +1,82 @@
 import React from "react";
-import {Form, Button, Image} from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
-import history from '../helpers/history';
+import {Form, Button, Image} from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import {connect} from "react-redux";
+import history from "../helpers/history";
  
-import 'react-datepicker/dist/react-datepicker.css';
-import '../styles/Home.css';
-import img_1 from '../images/3.jpg';
-import img_2 from '../images/2.jpg';
+import "react-datepicker/dist/react-datepicker.css";
+import "../styles/Home.css";
+import img_1 from "../images/3.jpg";
+import img_2 from "../images/2.jpg";
+import userActions from "../actions/user";
  
 class Home extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            startDate: new Date()
+            route: "",
+            dateDeparture: new Date(),
+            numberOfTicket: 1,
+            errorRoute: "Tuyến đường không được bỏ trống",
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChangeDateDeparture = this.handleChangeDateDeparture.bind(this);
+    }
+
+    componentWillMount(){
+        const {getAllRoutes} = this.props;
+        getAllRoutes();
     }
     
-    handleChange = date => {
+    handleChange(e){
+        const {name, value} = e.target; 
+        let errorRoute;
+        if(name === "route"){
+            errorRoute = (value === "") ? "Tuyến đường không được bỏ trống": ""
+        }
         this.setState({
-            startDate: date
-        });
+            [name]: value,
+            errorRoute
+        })
     };
 
-    handleSubmit(){
-        history.push('/customer-infor');
+    handleChangeDateDeparture = date => {
+        this.setState({
+            dateDeparture: date
+        })
+    };
+
+    handleSubmit(e){
+        e.preventDefault();
+        const {route, numberOfTicket, dateDeparture, errorRoute} = this.state
+        if(errorRoute === ""){
+            const departure = route.slice(0, route.lastIndexOf("--->"));
+            const destination = route.slice(route.lastIndexOf("--->") + 4, route.length);
+            const day = dateDeparture. getDate();
+            const month = dateDeparture. getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12.
+            const year = dateDeparture. getFullYear();
+            const date = {
+                d: day,
+                m: month,
+                y: year
+            }
+            history.push("/chair-number", {departure, destination, numberOfTicket, date});
+        }
     }
 
     render(){
 
-        const {startDate} = this.state;
+        const {dateDeparture, numberOfTicket, route, errorRoute} = this.state;
+        const {routes} = this.props;
+
+        let listRoutes;
+        if(routes){
+            listRoutes = routes.map(route =>
+                <option>{route.departure}--->{route.destination}</option>
+            )
+        }
 
         return (
             <div className="container ">
@@ -41,40 +86,41 @@ class Home extends React.Component {
                         <div className="border border-success rounded">
                             <Form onSubmit = {this.handleSubmit}>
                                 <div className="row pt-3 pb-3 pl-3 pr-3">
-                                    <div className="col-md-6">
+                                    <div className="col-md-12">
                                         <Form.Group controlId="formLocationDeparture">
-                                            <Form.Label className="font-weight-bold">Điểm khởi hành</Form.Label>
-                                            <Form.Control as="select">
-                                                <option>Choose...</option>
-                                                <option>...</option>
+                                            <Form.Label className="font-weight-bold">Tuyến Đường</Form.Label>
+                                            <Form.Control as="select" name="route" value={route} onChange={this.handleChange}>
+                                                <option></option>
+                                                {listRoutes}
                                             </Form.Control>
+                                            <Form.Text className="text-danger">{errorRoute}</Form.Text>
                                         </Form.Group>
+                                    </div>
+                                
+                                    <div className="col-md-6">
                                         <Form.Group controlId="formDateDeparture">
                                             <Form.Label className="font-weight-bold">Ngày khởi hành</Form.Label>
                                             <DatePicker className="input-date rounded-sm"
-                                                selected={startDate}
-                                                onChange={this.handleChange}
+                                                // name="dateDeparture"
+                                                selected={dateDeparture}
+                                                onChange={this.handleChangeDateDeparture}
                                             />
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
-                                        <Form.Group controlId="formDestination">
-                                            <Form.Label className="font-weight-bold">Điểm đến</Form.Label>
-                                            <Form.Control as="select">
-                                                <option>Choose...</option>
-                                                <option>...</option>
-                                            </Form.Control>
-                                        </Form.Group>
                                         <Form.Group controlId="formNumberOfTicket">
                                             <Form.Label className="font-weight-bold">Số lượng vé</Form.Label>
-                                            <Form.Control as="select">
-                                                <option>Choose...</option>
-                                                <option>...</option>
+                                            <Form.Control as="select" name="numberOfTicket" value={numberOfTicket} onChange={this.handleChange}>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
                                             </Form.Control>
                                         </Form.Group>
                                     </div>
-                                    
                                 </div>
+                                
                                 <div className="row text-center">
                                     <div className="col-md-12 mb-3">
                                         <Button type="submit" disabled={false} className="w-50 font-weight-bold" variant="success">
@@ -99,4 +145,12 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+const mapStateToProps = state => ({
+    routes: state.getAllRoutes.routes
+});
+
+const userCreators = {
+    getAllRoutes: userActions.getAllRoutes
+}
+
+export default connect(mapStateToProps, userCreators)(Home);
