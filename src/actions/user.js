@@ -1,20 +1,25 @@
 import apiServices from "../helpers/apiServices";
+import history from "../helpers/history";
 
-function checkout(token){
+function checkout(token, fare){
     return dispatch => {
    
-        fetch(`${apiServices.apiLocal}/checkout`, {
+        fetch(`${apiServices.apiHeroku}/checkout`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                token
+                token,
+                fare
             })
         })
         .then(res => {
-           return console.log(res);
+            res.json().then(message => {
+                alert(message);
+                history.push("/");
+            })
         })
         .catch(error => console.log(error));
     }
@@ -28,7 +33,7 @@ function getAllRoutes(){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/get-all-routes`, {
+        fetch(`${apiServices.apiHeroku}/get-all-routes`, {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -53,7 +58,7 @@ function getRouteByDepartureAndDestination(departure, destination){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/get-route-by-departure-and-destination`, {
+        fetch(`${apiServices.apiHeroku}/get-route-by-departure-and-destination`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -76,7 +81,7 @@ function getRouteByDepartureAndDestination(departure, destination){
 
 function createTrip(fareInfo){
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/create-trip`, {
+        fetch(`${apiServices.apiHeroku}/create-trip`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -94,7 +99,7 @@ function createTrip(fareInfo){
 
 function createFare(fareInfo){
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/create-fare`, {
+        fetch(`${apiServices.apiHeroku}/create-fare`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -118,7 +123,7 @@ function getTripByDepDesDateAndTime(departure, destination, date, time){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/get-trip-by-dep-des-date-and-time`, {
+        fetch(`${apiServices.apiHeroku}/get-trip-by-dep-des-date-and-time`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -133,9 +138,11 @@ function getTripByDepDesDateAndTime(departure, destination, date, time){
         })
         .then(res => {
             res.json().then(trip => {
-                const bookedChair = trip.bookedChair;
-                if(trip){
-                    dispatch(isSuccess(bookedChair));
+                if(res.status === 200){
+                    dispatch(isSuccess(trip.bookedChair));
+                }
+                else{
+                    dispatch(isSuccess(null))
                 }
             })
         })

@@ -74,7 +74,6 @@ class ChairNumber extends React.Component{
     }
 
     render(){
-
         const {route} = this.props;
         const {departureTime, getOnDeparture, errorDepartureTime, errorGetOnDeparture, numberChair} = this.state;
 
@@ -92,7 +91,7 @@ class ChairNumber extends React.Component{
 
         let listChair = [];
         const {bookedChair} = this.props;
-        let lengthBookedChair;
+        let lengthBookedChair = 0;
         if(bookedChair){
             lengthBookedChair = bookedChair.length;
         }
@@ -134,7 +133,6 @@ class ChairNumber extends React.Component{
                 }
             }
         }
-
         return (
             <div className="container mt-5">
                 <div className="row ">

@@ -9,17 +9,23 @@ class Schedules extends React.Component {
 
     constructor(props){
         super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(departure, destination){
-        history.push("/schedules-detail", {departure, destination});
+        this.handleClickSchedulesDetail = this.handleClickSchedulesDetail.bind(this);
+        this.handleclickBuyTicket = this.handleclickBuyTicket.bind(this);
     }
 
     componentWillMount(){
         const {getAllRoutes} = this.props;
         getAllRoutes();
     }
+
+    handleclickBuyTicket(route){
+        history.push("/", route);
+    }
+
+    handleClickSchedulesDetail(departure, destination){
+        history.push("/schedules-detail", {departure, destination});
+    }
+
     
     render(){
 
@@ -27,8 +33,7 @@ class Schedules extends React.Component {
         let listRoute;
 
         if(routes){
-            routes.map((route, i) => 
-                listRoute = 
+            listRoute = routes.map((route, i) => 
                 <tr>
                     <td>{i + 1}</td>
                     <td>{route.departure}</td>
@@ -37,23 +42,18 @@ class Schedules extends React.Component {
                     <td>{route.distance}</td>
                     <td>{route.departureTime.length}</td>
                     <td>{route.fare}</td>
-                    <td><Button onClick={() => this.handleClick(route.departure, route.destination)} variant="outline-success"><i class="fas fa-clock"></i></Button></td>
+                    <td><Button onClick={() => this.handleClickSchedulesDetail(route.departure, route.destination)} variant="outline-success"><i class="fas fa-clock"></i></Button></td>
                     <td></td>
-                    <td><Button variant="success">Mua Vé</Button></td>
+                    <td><Button variant="success" onClick={() => this.handleclickBuyTicket(route)}>Mua Vé</Button></td>
                 </tr>
             )
         }
 
         return (
             <div className="container mt-5">
-                <div className="row mb-3">
-                    <div className="col-md-12">
-                        <h4 className="text-warning"> Tuyến Đường <i class="fas fa-shuttle-van"></i></h4>
-                    </div>
-                </div>
                 <div className="row">
                     <div className="col-md-12">
-                        <div className="text-success font-weight-bold">Tên Tuyến Đường &nbsp; <i class=" fas fa-exchange-alt"></i></div>
+                        <div className="text-success font-weight-bold">Các tuyến đường &nbsp; <i class=" fas fa-exchange-alt"></i></div>
                         <Table responsive="sm">
                             <thead>
                                 <tr className="">

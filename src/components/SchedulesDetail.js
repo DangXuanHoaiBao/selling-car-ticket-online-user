@@ -9,13 +9,17 @@ class SchedulesDetail extends React.Component {
 
     constructor(props){
         super(props);
-
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentWillMount(){
         const {departure, destination} = history.location.state;
         const {getRouteByDepartureAndDestination} = this.props;
         getRouteByDepartureAndDestination(departure, destination);
+    }
+
+    handleClick(departure, destination){
+        history.push("/", {departure, destination});
     }
     
     render(){
@@ -24,16 +28,15 @@ class SchedulesDetail extends React.Component {
         let listTrip;
 
         if(route){
-            route.departureTime.map((time, i) => 
-                listTrip = 
+            listTrip = route.departureTime.map((time, i) => 
                 <tr>
                     <td>{i + 1}</td>
-                    <td>{time}</td>
+                    <td>{time}:00</td>
                     <td>{route.departure} ---> {route.destination}</td>
-                    <td>{route.distance}</td>
-                    <td>{route.fare}</td>
+                    <td>{route.distance}km</td>
+                    <td>{route.fare}vnd</td>
                     <td></td>
-                    <td><Button variant="success">Mua Vé</Button></td>
+                    <td><Button variant="success" onClick={() => this.handleClick(route.departure, route.destination)}>Mua Vé</Button></td>
                 </tr>
             )
         }

@@ -3,7 +3,6 @@ import {Form, Button, Image} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import {connect} from "react-redux";
 import history from "../helpers/history";
- 
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/Home.css";
 import img_1 from "../images/3.jpg";
@@ -27,18 +26,28 @@ class Home extends React.Component {
 
     componentWillMount(){
         const {getAllRoutes} = this.props;
-        getAllRoutes();
+        const route = history.location.state;
+        if(route){
+            this.setState({
+                route: `${route.departure}--->${route.destination}`,
+                errorRoute: ""
+            })
+        }
+        else{
+            getAllRoutes();
+        }
     }
     
     handleChange(e){
         const {name, value} = e.target; 
-        let errorRoute;
         if(name === "route"){
-            errorRoute = (value === "") ? "Tuyến đường không được bỏ trống": ""
+            const errorRoute = (value === "") ? "Tuyến đường không được bỏ trống": ""
+            this.setState({
+                errorRoute
+            })
         }
         this.setState({
-            [name]: value,
-            errorRoute
+            [name]: value
         })
     };
 
@@ -101,7 +110,6 @@ class Home extends React.Component {
                                         <Form.Group controlId="formDateDeparture">
                                             <Form.Label className="font-weight-bold">Ngày khởi hành</Form.Label>
                                             <DatePicker className="input-date rounded-sm"
-                                                // name="dateDeparture"
                                                 selected={dateDeparture}
                                                 onChange={this.handleChangeDateDeparture}
                                             />
@@ -123,7 +131,7 @@ class Home extends React.Component {
                                 
                                 <div className="row text-center">
                                     <div className="col-md-12 mb-3">
-                                        <Button type="submit" disabled={false} className="w-50 font-weight-bold" variant="success">
+                                        <Button type="submit" className="w-50 font-weight-bold" variant="success">
                                             Mua Vé
                                         </Button>
                                     </div>

@@ -13,8 +13,7 @@ class Checkout extends React.Component {
   handleToken(token){
     const { checkout, createFare, createTrip } = this.props;
     const fareInfo = history.location.state;
-
-    checkout(token);
+    checkout(token, fareInfo.fare);
     createFare(fareInfo);
     createTrip(fareInfo);
   }
@@ -71,7 +70,6 @@ class Checkout extends React.Component {
     );
   }
 }
-
 
 const actionCreators = {
     checkout: userActions.checkout,
