@@ -1,5 +1,11 @@
+/* eslint-disable quotes */
+/* eslint-disable no-restricted-globals */
 import apiServices from "../helpers/apiServices";
 import history from "../helpers/history";
+import config from "../config/api-config";
+import authHeader from '../helpers/auth-header';
+import alertActions from '../actions/alert';
+
 
 function checkout(token, fare){
     return dispatch => {
@@ -149,7 +155,7 @@ function getTripByDepDesDateAndTime(departure, destination, date, time){
     }
 }
 
-function signUp(email, password){
+function signUp(fullName, email, password){
     return dispatch => {
         fetch(`${apiServices.apiLocal}/users/sign-up`, {
             method: "POST",
@@ -158,6 +164,7 @@ function signUp(email, password){
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                fullName,
                 email,
                 password
             })
@@ -176,34 +183,113 @@ function signUp(email, password){
     }
 }
 
-function login(email, password){
+
+function login(email, password, rememberUsername){
+    function request() { 
+        return { 
+            type: 'LOGIN_REQUEST' 
+        } 
+    }
+    function isSuccess(data, message){
+        return {
+            type: 'LOGIN_SUCCESS',
+            message,
+            data
+        }
+    }
+    function isFail(message){
+        return {
+            type: 'LOGIN_FAIL',
+            message
+        }
+    }
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/users/login`, {
-            method: "POST",
+        dispatch(request());
+        if(rememberUsername === true){
+            localStorage.setItem('username', email);
+        }
+        else{
+            localStorage.removeItem('username');
+        }
+        fetch(`${config.apiUrlLocal}/users/login`, {
+            method: 'POST',
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email,
-                password
+                'email': email,
+                'password': password
             })
         })
+        .then(handleResponse)
         .then(res => {
-            res.json().then(data=>{
-                if(res.status === 200){
-                    console.log(data.user);
-                    localStorage.setItem("username", data.user.username);
-                    history.push("/");
-                }
-            })
+            localStorage.setItem('data', JSON.stringify(res));
+                dispatch(isSuccess(res, "Đăng nhập thành công"));
+             
+                history.push('/');
+
         })
         .catch(error => {
-            // dispatch(alertActions.error(error.message));
-            // dispatch(isFail(error.message));
-            console.log(error)
+            dispatch(alertActions.error(error.message));
+            dispatch(isFail(error.message));
         });
     }
+}
+function logout(){
+    localStorage.removeItem('data');
+    return {
+        type: 'LOGOUT'
+    }
+}
+
+function updateInfo(newUser){
+    return dispatch => {
+        fetch(`${config.apiUrlLocal}/users/update-info`,{
+            method: 'POST',
+            headers: {
+                ...authHeader(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify ({
+                newUser
+            })
+        })
+        .then(handleResponse)
+        .then(
+            res => {
+                const data = JSON.parse(localStorage.getItem('data'));
+                localStorage.removeItem('data');
+                const {fullName, address, gender, phoneNumber, urlImg} = newUser;
+                data.user = {...data.user, fullName, address, gender, phoneNumber, urlImg}
+                localStorage.setItem('data', JSON.stringify(data));
+                dispatch(updateResOfNavigation(data));
+                dispatch(alertActions.success(res.message));
+            },
+            error => {
+                dispatch(alertActions.error(error));
+            })
+        .catch(errors => console.log(errors))
+    };
+    function updateResOfNavigation(data) { return { type: 'LOGIN_SUCCESS', data: data } }
+}
+
+function handleResponse(response) {
+    return response.text().then(text => {
+        const data = text && JSON.parse(text);
+        if (!response.ok) {
+            if (response.status === 401) {
+                // auto logout if 401 response returned from api
+                logout();
+                location.reload(true);
+            }
+
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
+
+        return data;
+    });
 }
 
 const userActions = {
@@ -214,7 +300,9 @@ const userActions = {
     createTrip,
     getTripByDepDesDateAndTime,
     signUp,
-    login
+    login,
+    logout,
+    updateInfo
 }
 
 export default userActions;

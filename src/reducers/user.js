@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 export const getAllRoutes = (state = {}, action) => {
     switch(action.type){
         case "GET_ALL_ROUTES": {
@@ -29,6 +30,37 @@ export const getTripByDepDesDateAndTime = (state = {}, action) => {
                 ...state,
                 bookedChair: action.bookedChair
             }
+        }
+        default: return state;
+    }
+}
+
+const data = JSON.parse(localStorage.getItem('data'));
+const stateDefault = data ? {isLogining: true, data: data} : {};
+export const login = (state = stateDefault, action) => {
+    switch(action.type){
+        case 'LOGIN_REQUEST': {
+            return {
+                ...state,
+                isLogining: true
+            }
+        }
+        case 'LOGIN_SUCCESS': {
+            return {
+                ...state,
+                message: action.message,
+                data: action.data
+            }
+        }
+        case 'LOGIN_FAIL': {
+            return {
+                ...state,
+                message: action.message,
+                isLogining: false
+            }
+        }
+        case 'LOGOUT': {
+            return {}
         }
         default: return state;
     }
