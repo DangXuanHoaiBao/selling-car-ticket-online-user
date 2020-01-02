@@ -87,8 +87,8 @@ class Home extends React.Component {
 
         let listRoutes;
         if(routes){
-            listRoutes = routes.map(route =>
-                <option>{route.departure}--->{route.destination}</option>
+            listRoutes = routes.map((route, key) =>
+                <option key={key}>{route.departure}--->{route.destination}</option>
             )
         }
 
