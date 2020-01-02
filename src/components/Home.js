@@ -18,6 +18,7 @@ class Home extends React.Component {
             dateDeparture: new Date(),
             numberOfTicket: 1,
             errorRoute: "Bắt buộc",
+            errorDateDeparture: ""
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -46,21 +47,25 @@ class Home extends React.Component {
                 errorRoute
             })
         }
+
         this.setState({
             [name]: value
         })
     };
 
     handleChangeDateDeparture = date => {
+        const currentDate = new Date();
+        const errorDateDeparture = (date < currentDate) ? "Ngày khởi hành không hợp lệ": "";
         this.setState({
-            dateDeparture: date
+            dateDeparture: date,
+            errorDateDeparture
         })
     };
 
     handleSubmit(e){
         e.preventDefault();
-        const {route, numberOfTicket, dateDeparture, errorRoute} = this.state
-        if(errorRoute === ""){
+        const {route, numberOfTicket, dateDeparture, errorRoute, errorDateDeparture} = this.state
+        if(errorRoute === "" && errorDateDeparture === ""){
             const departure = route.slice(0, route.lastIndexOf("--->"));
             const destination = route.slice(route.lastIndexOf("--->") + 4, route.length);
             const day = dateDeparture. getDate();
@@ -77,7 +82,7 @@ class Home extends React.Component {
 
     render(){
 
-        const {dateDeparture, numberOfTicket, route, errorRoute} = this.state;
+        const {dateDeparture, numberOfTicket, route, errorRoute, errorDateDeparture} = this.state;
         const {routes} = this.props;
 
         let listRoutes;
@@ -113,6 +118,7 @@ class Home extends React.Component {
                                                 selected={dateDeparture}
                                                 onChange={this.handleChangeDateDeparture}
                                             />
+                                            <Form.Text className="text-danger">{errorDateDeparture}</Form.Text>
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">

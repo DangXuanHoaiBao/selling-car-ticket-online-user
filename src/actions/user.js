@@ -206,6 +206,39 @@ function login(email, password){
     }
 }
 
+function getFaresOfUser(){
+    const data = localStorage.getItem("data");
+    let email;
+    if(data){
+        email = data.user.username;
+    }
+    function isSuccess(fares){
+        return {
+            type: "GET_FARES_OF_USER",
+            fares
+        }
+    }
+    return dispatch => {
+        fetch(`${apiServices.apiLocal}/users/get-fares`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email
+            })
+        })
+        .then(res => {
+            res.json().then(fares => {
+                if(res.status === 200){
+                    dispatch(isSuccess(fares));
+                }
+            })
+        })
+    }
+}
+
 const userActions = {
     checkout,
     getAllRoutes,
@@ -214,7 +247,8 @@ const userActions = {
     createTrip,
     getTripByDepDesDateAndTime,
     signUp,
-    login
+    login,
+    getFaresOfUser
 }
 
 export default userActions;

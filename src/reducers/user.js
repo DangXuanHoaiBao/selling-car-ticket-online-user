@@ -33,3 +33,15 @@ export const getTripByDepDesDateAndTime = (state = {}, action) => {
         default: return state;
     }
 }
+
+export const getFaresOfUser = (state = {}, action) => {
+    switch(action.type){
+        case "GET_FARES_OF_USER": {
+            return {
+                ...state,
+                fares: action.fares
+            }
+        }
+        default: return state;
+    }
+}

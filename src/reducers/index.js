@@ -2,11 +2,13 @@ import {combineReducers} from "redux";
 import {
     getAllRoutes,
     getRouteByDepartureAndDestination,
-    getTripByDepDesDateAndTime
+    getTripByDepDesDateAndTime,
+    getFaresOfUser
 } from "./user";
 
 export default combineReducers({
     getAllRoutes,
     getRouteByDepartureAndDestination,
-    getTripByDepDesDateAndTime
+    getTripByDepDesDateAndTime,
+    getFaresOfUser
 });

@@ -12,6 +12,7 @@ import logo_mhh from "../images/logo-mhh.PNG";
 import ChairNumber from "./ChairNumber";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import Detail from "./User/Detail";
 
 function App() {
   return (
@@ -80,6 +81,9 @@ function App() {
         </Route>
         <Route exact path="/chair-number">
           <ChairNumber/>
+        </Route>
+        <Route exact path="/user-detail">
+          <Detail />
         </Route>
         <Route exact path="/">
           <Home />
