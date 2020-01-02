@@ -10,7 +10,7 @@ import alertActions from '../actions/alert';
 function checkout(token, fare){
     return dispatch => {
    
-        fetch(`${apiServices.apiHeroku}/checkout`, {
+        fetch(`${apiServices.apiLocal}/checkout`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -39,7 +39,7 @@ function getAllRoutes(){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiHeroku}/get-all-routes`, {
+        fetch(`${apiServices.apiLocal}/get-all-routes`, {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -64,7 +64,7 @@ function getRouteByDepartureAndDestination(departure, destination){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiHeroku}/get-route-by-departure-and-destination`, {
+        fetch(`${apiServices.apiLocal}/get-route-by-departure-and-destination`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -87,7 +87,7 @@ function getRouteByDepartureAndDestination(departure, destination){
 
 function createTrip(fareInfo){
     return dispatch => {
-        fetch(`${apiServices.apiHeroku}/create-trip`, {
+        fetch(`${apiServices.apiLocal}/create-trip`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -103,16 +103,17 @@ function createTrip(fareInfo){
     }
 }
 
-function createFare(fareInfo){
+function createFare(fareInfo, email){
     return dispatch => {
-        fetch(`${apiServices.apiHeroku}/create-fare`, {
+        fetch(`${apiServices.apiLocal}/create-fare`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                fareInfo
+                fareInfo,
+                email
             })
         })
         .then(res => {
@@ -129,7 +130,7 @@ function getTripByDepDesDateAndTime(departure, destination, date, time){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiHeroku}/get-trip-by-dep-des-date-and-time`, {
+        fetch(`${apiServices.apiLocal}/get-trip-by-dep-des-date-and-time`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -352,6 +353,83 @@ function handleResponse(response) {
     });
 }
 
+function getFaresOfUser(){
+    const data = JSON.parse(localStorage.getItem("data"));
+    const user = data.user;
+    const email = user.email;
+    function isSuccess(fares){
+        return {
+            type: "GET_FARES_OF_USER",
+            fares
+        }
+    }
+    return dispatch => {
+        fetch(`${apiServices.apiLocal}/users/get-fares`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+               email
+            })
+        })
+        .then(res => {
+            res.json().then(fares => {
+                if(res.status === 200){
+                    dispatch(isSuccess(fares));
+                }
+            })
+        })
+    }
+}
+
+function addComment(comment, user){
+    return dispatch => {
+        fetch(`${apiServices.apiLocal}/users/add-comment`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                comment,
+                user
+            })
+        })
+        .then(res => {
+            if(res.status === 200){
+                return console.log("thêm bình luận thành công");
+            }
+        })
+    }
+}
+
+function getAllComments(){
+    function isSuccess(comments){
+        return {
+            type: "GET_ALL_COMMENTS",
+            comments
+        }
+    }
+    return dispatch => {
+        fetch(`${apiServices.apiLocal}/users/get-all-comments`, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+        .then(res => {
+            res.json().then(comments => {
+                if(res.status === 200){
+                    dispatch(isSuccess(comments));
+                }
+            })
+        })
+    }
+}
+
 const userActions = {
     checkout,
     getAllRoutes,
@@ -361,10 +439,14 @@ const userActions = {
     getTripByDepDesDateAndTime,
     signUp,
     login,
+    getFaresOfUser,
     logout,
     updateInfo,
     signUp_Login_With_Google_Facebook,
-    changePassword
+    changePassword,
+    addComment,
+    getAllComments,
+    signUp_Login_With_Google_Facebook
 }
 
 export default userActions;

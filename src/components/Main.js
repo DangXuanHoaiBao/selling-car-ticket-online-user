@@ -2,7 +2,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
-import { ToastContainer } from "react-toastify";
 
 import Home from "./Home";
 import CustomerInfor from "./CustomerInfor";
@@ -14,6 +13,8 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import UserInfo from "./UserInfo";
 import ChangePassword from "./ChangePassword";
+import Detail from "./User/Detail";
+import GroupChat from "./User/GroupChat";
 
 class Main extends React.Component {
   render() {
@@ -48,6 +49,12 @@ class Main extends React.Component {
         </Route>
         <Route exact path="/change-password" >
           <ChangePassword />
+        </Route>  
+        <Route exact path="/user-detail">
+          <Detail />
+        </Route>
+        <Route exact path="/group-chat">
+          <GroupChat/>
         </Route>
       </Switch>
     );

@@ -1,7 +1,6 @@
 /* eslint-disable quotes */
 import React from "react";
-import {Navbar, Nav, Button, Image, Card} from "react-bootstrap";
-import {Router, Switch, Route, Link} from "react-router-dom";
+import {Router} from "react-router-dom";
 import "../styles/App.css";
 import history from "../helpers/history";
 import Header from './Header';

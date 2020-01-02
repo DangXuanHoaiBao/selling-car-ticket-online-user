@@ -83,7 +83,6 @@ class UserBox extends React.Component {
                                     </DropdownToggle>
                                     {data &&
                                     <DropdownMenu right className="rm-pointers dropdown-menu-lg">
-                                
                                         <NavLink href="/user-info">
                                             <DropdownItem >Thông tin tài khoản
                                                 <FontAwesomeIcon className="mr-2 ml-2" icon={faInfo}/>

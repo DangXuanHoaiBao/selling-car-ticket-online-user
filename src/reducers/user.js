@@ -35,6 +35,18 @@ export const getTripByDepDesDateAndTime = (state = {}, action) => {
     }
 }
 
+export const getFaresOfUser = (state = {}, action) => {
+    switch(action.type){
+        case "GET_FARES_OF_USER": {
+            return {
+                ...state,
+                fares: action.fares
+            }
+        }
+        default: return state;
+    }
+}
+
 const data = JSON.parse(localStorage.getItem('data'));
 const stateDefault = data ? {isLogining: true, data: data} : {};
 export const login = (state = stateDefault, action) => {
@@ -61,6 +73,18 @@ export const login = (state = stateDefault, action) => {
         }
         case 'LOGOUT': {
             return {}
+        }
+        default: return state;
+    }
+}
+
+export const getAllComments = (state = {}, action) => {
+    switch(action.type){
+        case "GET_ALL_COMMENTS": {
+            return {
+                ...state,
+                comments: action.comments
+            }
         }
         default: return state;
     }

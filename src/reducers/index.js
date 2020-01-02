@@ -4,7 +4,9 @@ import {
     getAllRoutes,
     getRouteByDepartureAndDestination,
     getTripByDepDesDateAndTime,
-    login
+    login,
+    getFaresOfUser,
+    getAllComments
 } from "./user";
 import alert from './alert';
 
@@ -13,5 +15,7 @@ export default combineReducers({
     getRouteByDepartureAndDestination,
     getTripByDepDesDateAndTime,
     login,
-    alert
+    alert,
+    getFaresOfUser,
+    getAllComments
 });
