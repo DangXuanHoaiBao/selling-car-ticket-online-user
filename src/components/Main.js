@@ -2,6 +2,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
+import Private from "../helpers/private";
 
 import Home from "./Home";
 import CustomerInfor from "./CustomerInfor";
@@ -22,42 +23,23 @@ class Main extends React.Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/sign-up">
-          <SignUp />
-        </Route>
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route exact path="/customer-infor">
-          <CustomerInfor />
-        </Route>
-        <Route exact path="/checkout">
-          <Checkout />
-        </Route>
+        <Private.IsNotLogin exact path="/sign-up" component={SignUp}/>
+        <Private.IsNotLogin exact path="/login" component={Login}/>
+        <Private.IsLogin exact path="/customer-infor" component={CustomerInfor}/>
+        <Private.IsLogin exact path="/checkout" component={Checkout}/>
         <Route exact path="/schedules">
           <Schedules />
         </Route>
-        <Route exact path="/schedules-detail">
-          <SchedulesDetail />
-        </Route>
-        <Route exact path="/chair-number">
-          <ChairNumber />
-        </Route>
+        <Private.IsLogin exact path="/schedules-detail" component={SchedulesDetail}/>
+        <Private.IsLogin exact path="/chair-number" component={ChairNumber}/>
         <Route exact path="/">
           <Home />
         </Route>
-        <Route exact path="/user-info">
-          <UserInfo />
-        </Route>
-        <Route exact path="/change-password" >
-          <ChangePassword />
-        </Route>  
-        <Route exact path="/user-history">
-          <Detail />
-        </Route>
-        <Route exact path="/group-chat">
-          <GroupChat/>
-        </Route>
+        <Private.IsLogin exact path="/user-info" component={UserInfo}/>
+        <Private.IsLogin exact path="/change-password" component={ChangePassword}/>
+        <Private.IsLogin exact path="/user-history" component={Detail}/>
+        <Private.IsLogin exact path="/group-chat" component={GroupChat}/>
+      
         <Route exact path="/discount">
           <Discount />
         </Route>
