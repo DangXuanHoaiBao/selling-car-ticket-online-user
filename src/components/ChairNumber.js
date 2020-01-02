@@ -148,52 +148,55 @@ class ChairNumber extends React.Component{
             }
         }
         return (
-            <div className="container mt-5">
-                <div className="row ">
-                    <div className="col-md-5">
-                        <div className=" font-weight-bold text-success"> Chọn Thông Tin Hành Trình</div>
-                        <div className="border border-success rounded">
-                            <Form onSubmit={this.handleSubmit}>
-                                <div className="row mt-3 mb-4 ml-3 mr-3">
-                                    <div className="col-md-12">
-                                        <Form.Group controlId="formDateDeparture">
-                                            <Form.Label className="font-weight-bold"><i class="fa fa-clock-o text-danger" aria-hidden="true"></i> Chọn giờ khởi hành</Form.Label>
-                                             <Form.Control as="select" name="departureTime" value={departureTime} onChange={this.handleChange}>
-                                               <option></option>
-                                               {listDepartureTime}
-                                            </Form.Control>
-                                            <Form.Text className="text-danger">{errorDepartureTime}</Form.Text>
-                                        </Form.Group>
-
-                                        <Form.Group controlId="formDistrict">
-                                            <Form.Label className="font-weight-bold"><i class="fa fa-map-marker text-danger" aria-hidden="true"></i> Chọn điểm lên xe</Form.Label>
-                                            <Form.Control as="select" name="getOnDeparture" value={getOnDeparture} onChange={this.handleChange}>
+            <div className="background-img">
+                <div className="container mt-5">
+                    <div className="row ">
+                        <div className="col-md-5">
+                            <div className=" font-weight-bold text-success"> Chọn Thông Tin Hành Trình</div>
+                            <div className="border border-success rounded">
+                                <Form onSubmit={this.handleSubmit}>
+                                    <div className="row mt-3 mb-4 ml-3 mr-3">
+                                        <div className="col-md-12">
+                                            <Form.Group controlId="formDateDeparture">
+                                                <Form.Label className="font-weight-bold"><i class="fa fa-clock-o text-danger" aria-hidden="true"></i> Chọn giờ khởi hành</Form.Label>
+                                                <Form.Control as="select" name="departureTime" value={departureTime} onChange={this.handleChange}>
                                                 <option></option>
-                                                {listGetOnDeparture}
-                                            </Form.Control>
-                                            <Form.Text className="text-danger">{errorGetOnDeparture}</Form.Text>
-                                        </Form.Group>
+                                                {listDepartureTime}
+                                                </Form.Control>
+                                                <Form.Text className="text-danger">{errorDepartureTime}</Form.Text>
+                                            </Form.Group>
+
+                                            <Form.Group controlId="formDistrict">
+                                                <Form.Label className="font-weight-bold"><i class="fa fa-map-marker text-danger" aria-hidden="true"></i> Chọn điểm lên xe</Form.Label>
+                                                <Form.Control as="select" name="getOnDeparture" value={getOnDeparture} onChange={this.handleChange}>
+                                                    <option></option>
+                                                    {listGetOnDeparture}
+                                                </Form.Control>
+                                                <Form.Text className="text-danger">{errorGetOnDeparture}</Form.Text>
+                                            </Form.Group>
+                                        </div>
+                                    </div>
+                                    <div className="row text-center"><div className="col-md-12 mb-3"><Button className="w-50 font-weight-bold" type="submit" variant="success"> Tiếp Theo </Button></div></div>
+                                </Form>
+                            </div>
+                        </div>
+                        <div className="col-md-7">
+                            <div className=" font-weight-bold text-success"> Chọn Ghế  <span className="float-right">Tổng tiền: {total}vnd</span></div>
+                            <div className="border border-success rounded">
+                                <div className="row mt-3 mb-3 ml-3 mr-3">
+                                <div className="col-md-12">
+                                <div className="row">
+                                        {listChair}
                                     </div>
                                 </div>
-                                <div className="row text-center"><div className="col-md-12 mb-3"><Button className="w-50 font-weight-bold" type="submit" variant="success"> Tiếp Theo </Button></div></div>
-                            </Form>
-                        </div>
-                    </div>
-                    <div className="col-md-7">
-                        <div className=" font-weight-bold text-success"> Chọn Ghế  <span className="float-right">Tổng tiền: {total}vnd</span></div>
-                        <div className="border border-success rounded">
-                            <div className="row mt-3 mb-3 ml-3 mr-3">
-                               <div className="col-md-12">
-                               <div className="row">
-                                    {listChair}
                                 </div>
-                               </div>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
-                
             </div>
+           
         );
     }
 }

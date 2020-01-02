@@ -225,89 +225,92 @@ class Info extends React.Component {
       urlImg = reviewImage;
     }
     return (
-      <div className="container">
-        <Row>
-          <Col md="3" />
-          <Col md="6" className="content-info"><h2>Thông tin cá nhân</h2></Col>
-          <Col md="3" />
-        </Row>
-        <Row>
-          <Col md="3" />
-          <Col md="6">
-            <Card className="main-card mb-3">
-                <Row className="custom-image-info">
-                  <Col xs={12} >
-                    {reviewImage !== null &&
-                      <Media object  width={100}
-                      height={100}
-                      src={reviewImage} className="rounded-circle"/>
+      <div className="background-img">
+        <div className="container">
+          <Row>
+            <Col md="3" />
+            <Col md="6" className="content-info"><h2>Thông tin cá nhân</h2></Col>
+            <Col md="3" />
+          </Row>
+          <Row>
+            <Col md="3" />
+            <Col md="6">
+              <Card className="main-card mb-3">
+                  <Row className="custom-image-info">
+                    <Col xs={12} >
+                      {reviewImage !== null &&
+                        <Media object  width={100}
+                        height={100}
+                        src={reviewImage} className="rounded-circle"/>
+                      }
+                      {reviewImage === null && urlImg !== '' &&
+                        <Media object  width={100}
+                        height={100}
+                        src={urlImg} className="rounded-circle" >
+                        </Media>
+                      }
+                      {reviewImage === null && urlImg === '' &&
+                        <Media object  width={100}
+                        height={100}
+                        src={profileImg} className="rounded-circle"/>
+                      }
+                    </Col>
+                  </Row>
+                  <Row className="custom-image-info">
+                    <Col xs={12}>
+                    <div className="custom-form-file-group">
+                        <Button className="btn-upload">Cập nhật ảnh</Button>
+                        <input type="file" id="fileup" accept="image/*" onChange={this.handleSelectImage} />
+                    </div>
+                    </Col>
+                  </Row>
+                <CardBody>
+                  <Form onSubmit={this.handleSubmit}>
+                    <FormGroup>
+                      <Label for="exampleEmail">Họ tên</Label>
+                      <Input invalid={notify1} name="fullName" value={fullName} type="text" onChange={this.handleChange}/>
+                      <FormFeedback>Tên không được bỏ trống!!!</FormFeedback>
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="exampleEmail">Email {span}</Label>
+                      <Input name="email" value={email} type="text" disabled />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="exampleEmail">Giới tính</Label>
+                      <Input invalid={notify2} type="select" name="gender" value={gender} onChange={this.handleChange}>
+                                <option value=""></option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+                      </Input>
+                      <FormFeedback>Bạn chưa chọn giới tính!!!</FormFeedback>
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="exampleEmail">Địa chỉ</Label>
+                      <Input invalid={notify3} name="address" value={address} type="text" onChange={this.handleChange}/>
+                      <FormFeedback>Bạn chưa nhập địa chỉ!!!</FormFeedback>
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="exampleEmail">Số điện thoại</Label>
+                      <Input invalid={notify4} name="phoneNumber" value={phoneNumber} type="text" onChange={this.handleChange}/>
+                      <FormFeedback>Bạn chưa nhập số điện thoại!!!</FormFeedback>
+                    </FormGroup>
+                    <Label className="margin-top-1em">{span}: Chỉ xem</Label>
+                    <Button className="float-right btn-upload margin-top-1em" type="submit">Cập nhật
+                    {isUploading &&
+                      <FontAwesomeIcon className="ml-2 opacity-8" icon={faFan} spin/>
                     }
-                    {reviewImage === null && urlImg !== '' &&
-                      <Media object  width={100}
-                      height={100}
-                      src={urlImg} className="rounded-circle" >
-                      </Media>
-                    }
-                    {reviewImage === null && urlImg === '' &&
-                      <Media object  width={100}
-                      height={100}
-                      src={profileImg} className="rounded-circle"/>
-                    }
-                  </Col>
-                </Row>
-                <Row className="custom-image-info">
-                  <Col xs={12}>
-                  <div className="custom-form-file-group">
-                      <Button className="btn-upload">Cập nhật ảnh</Button>
-                      <input type="file" id="fileup" accept="image/*" onChange={this.handleSelectImage} />
-                  </div>
-                  </Col>
-                </Row>
-              <CardBody>
-                <Form onSubmit={this.handleSubmit}>
-                  <FormGroup>
-                    <Label for="exampleEmail">Họ tên</Label>
-                    <Input invalid={notify1} name="fullName" value={fullName} type="text" onChange={this.handleChange}/>
-                    <FormFeedback>Tên không được bỏ trống!!!</FormFeedback>
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="exampleEmail">Email {span}</Label>
-                    <Input name="email" value={email} type="text" disabled />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="exampleEmail">Giới tính</Label>
-                    <Input invalid={notify2} type="select" name="gender" value={gender} onChange={this.handleChange}>
-                              <option value=""></option>
-                              <option value="Nam">Nam</option>
-                              <option value="Nữ">Nữ</option>
-                              <option value="Khác">Khác</option>
-                    </Input>
-                    <FormFeedback>Bạn chưa chọn giới tính!!!</FormFeedback>
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="exampleEmail">Địa chỉ</Label>
-                    <Input invalid={notify3} name="address" value={address} type="text" onChange={this.handleChange}/>
-                    <FormFeedback>Bạn chưa nhập địa chỉ!!!</FormFeedback>
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="exampleEmail">Số điện thoại</Label>
-                    <Input invalid={notify4} name="phoneNumber" value={phoneNumber} type="text" onChange={this.handleChange}/>
-                    <FormFeedback>Bạn chưa nhập số điện thoại!!!</FormFeedback>
-                  </FormGroup>
-                  <Label className="margin-top-1em">{span}: Chỉ xem</Label>
-                  <Button className="float-right btn-upload margin-top-1em" type="submit">Cập nhật
-                  {isUploading &&
-                    <FontAwesomeIcon className="ml-2 opacity-8" icon={faFan} spin/>
-                  }
-                  </Button>
-                </Form>
-              </CardBody> 
-            </Card>
-          </Col>
-          <Col md="3" />
-        </Row>
-        <ToastContainer />
+                    </Button>
+                  </Form>
+                </CardBody> 
+              </Card>
+            </Col>
+            <Col md="3" />
+          </Row>
+          <ToastContainer />
+        </div>
       </div>
+      
     );
   }
 }

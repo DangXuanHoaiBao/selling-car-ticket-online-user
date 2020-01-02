@@ -13,6 +13,7 @@ import ChairNumber from "./ChairNumber";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import UserInfo from "./UserInfo";
+import ChangePassword from "./ChangePassword";
 
 class Main extends React.Component {
   render() {
@@ -44,6 +45,9 @@ class Main extends React.Component {
         </Route>
         <Route exact path="/user-info">
           <UserInfo />
+        </Route>
+        <Route exact path="/change-password" >
+          <ChangePassword />
         </Route>
       </Switch>
     );
