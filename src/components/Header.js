@@ -72,7 +72,7 @@ class Header extends React.Component{
                     <Nav className="justify-content-end">
                     <Nav.Item>
                         <Link to="/schedules" className="mr-4"> Lịch Trình </Link>
-                        <Link to="/" className="mr-4"> Khuyến Mãi </Link>
+                        <Link to="/discount" className="mr-4"> Khuyến Mãi </Link>
                         <Link to="/" className="mr-4"> Tin Tức </Link>
                         <Link to="/" className="mr-4"> Tuyển Dụng </Link>
                         <Link to="/" className=""> Liên Hệ </Link>

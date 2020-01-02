@@ -2,8 +2,8 @@ import React from "react";
 import {Card, ListGroup} from "react-bootstrap";
 import userActions from "../../actions/user";
 import { connect } from "react-redux";
-import {profileImg} from "../../images/profile.png";
 import {Media} from "reactstrap";
+import profileImg from "../../images/profile.png";
 
 class Detail extends React.Component{
     constructor(props){

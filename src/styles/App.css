@@ -641,6 +641,8 @@
   -o-background-size: cover;
   background-size: cover;
 }
+
+
 .background-color{
   background-color: #c8cbd3;
   opacity: 90%;
@@ -655,4 +657,11 @@
   height: 130px;
   width: 100%;
   border: 1px solid #F2F2F2;
+}
+
+.discount-detail{
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 3px;
+  padding: 3px;
 }

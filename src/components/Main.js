@@ -15,6 +15,8 @@ import UserInfo from "./UserInfo";
 import ChangePassword from "./ChangePassword";
 import Detail from "./User/Detail";
 import GroupChat from "./User/GroupChat";
+import Discount from "./Discount";
+import DiscountDetail from "./DiscountDetail";
 
 class Main extends React.Component {
   render() {
@@ -50,12 +52,16 @@ class Main extends React.Component {
         <Route exact path="/change-password" >
           <ChangePassword />
         </Route>  
-        <Route exact path="/user-detail">
+        <Route exact path="/user-history">
           <Detail />
         </Route>
         <Route exact path="/group-chat">
           <GroupChat/>
         </Route>
+        <Route exact path="/discount">
+          <Discount />
+        </Route>
+        <Route exact path="/discount-detail/:id" component={DiscountDetail}/>
       </Switch>
     );
   }
