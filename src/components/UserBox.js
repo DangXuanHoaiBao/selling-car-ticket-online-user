@@ -16,7 +16,8 @@ import {
     faAngleDown,
     faInfo,
     faExchangeAlt,
-    faSignOutAlt
+    faSignOutAlt,
+    faHistory
 } from '@fortawesome/free-solid-svg-icons';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -87,6 +88,11 @@ class UserBox extends React.Component {
                                                 <FontAwesomeIcon className="mr-2 ml-2" icon={faInfo}/>
                                             </DropdownItem>
                                         </NavLink>
+                                        <NavLink href="/user-history">
+                                                <DropdownItem >Lịch sử mua vé
+                                                    <FontAwesomeIcon className="mr-2 ml-2" icon={faHistory}/>
+                                                </DropdownItem>
+                                        </NavLink>
                                         {data.user.typeAccount === 'Normal' &&
                                         <NavLink href="/change-password">
                                             <DropdownItem >Đổi mật khẩu
@@ -94,7 +100,7 @@ class UserBox extends React.Component {
                                             </DropdownItem>
                                         </NavLink>
                                         }
-                                      
+                            
                                         <NavLink>
                                             <DropdownItem onClick={this.handleLogout} >Đăng xuất
                                                 <FontAwesomeIcon className="mr-2 ml-2" icon={faSignOutAlt}/>
