@@ -91,10 +91,10 @@ class Home extends React.Component {
             <div className="container ">
                 <div className="row ">
                     <div className="col-md-6">
-                        <div className="mb-2 font-weight-bold text-success"> MUA VÉ TRỰC TUYẾN</div>
+                        <div className="mb-1 font-weight-bold text-success"> MUA VÉ TRỰC TUYẾN</div>
                         <div className="border border-success rounded">
                             <Form onSubmit = {this.handleSubmit}>
-                                <div className="row pt-3 pb-3 pl-3 pr-3">
+                                <div className="row pt-3 pb-1 pl-3 pr-3">
                                     <div className="col-md-12">
                                         <Form.Group controlId="formLocationDeparture">
                                             <Form.Label className="font-weight-bold">Tuyến Đường</Form.Label>
@@ -130,7 +130,7 @@ class Home extends React.Component {
                                 </div>
                                 
                                 <div className="row text-center">
-                                    <div className="col-md-12 mb-3">
+                                    <div className="col-md-12 mb-2">
                                         <Button type="submit" className="w-50 font-weight-bold" variant="success">
                                             Mua Vé
                                         </Button>

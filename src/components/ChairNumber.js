@@ -12,7 +12,7 @@ class ChairNumber extends React.Component{
         this.state = {
             departureTime: "",
             getOnDeparture: "",
-            numberChair: 0,
+            numberChair: [],
             errorDepartureTime: "Thời gian khởi hành không được bỏ trống",
             errorGetOnDeparture: "Điểm lên xe không được bỏ trống"
         }
@@ -53,9 +53,15 @@ class ChairNumber extends React.Component{
     }
 
     handleClick(i){
-        this.setState({
-            numberChair: i
-        })
+        const {numberChair} = this.state;
+        const {numberOfTicket} = history.location.state;
+        const arrayTemp = numberChair.slice();
+        if(numberChair.length < numberOfTicket){
+            arrayTemp.push(i);
+            this.setState({
+                numberChair: arrayTemp
+            })
+        }
     }
 
     handleSubmit(e){
@@ -63,10 +69,10 @@ class ChairNumber extends React.Component{
         const {departure, destination, date, numberOfTicket} = history.location.state;
         const {errorDepartureTime, errorGetOnDeparture, departureTime, getOnDeparture, numberChair} = this.state;
         const {route} = this.props;
-        if(numberChair === 0){
-            alert("Bạn chưa chọn số ghế");
+        if(numberChair.length !== Number(numberOfTicket)){
+            alert("Bạn chưa chọn đủ số ghế");
         }
-        if(errorDepartureTime === ""  && errorGetOnDeparture === "" && numberChair !== 0){
+        if(errorDepartureTime === ""  && errorGetOnDeparture === "" && numberChair.length === Number(numberOfTicket)){
             const fare = route.fare;
             const time = departureTime.slice(0, departureTime.lastIndexOf(":00"));
             history.push("/customer-infor", {departure, destination, date, numberOfTicket, time, getOnDeparture, numberChair, fare});  
@@ -76,9 +82,10 @@ class ChairNumber extends React.Component{
     render(){
         const {route} = this.props;
         const {departureTime, getOnDeparture, errorDepartureTime, errorGetOnDeparture, numberChair} = this.state;
-
+        const {numberOfTicket} = history.location.state;
         let listDepartureTime;
         let listGetOnDeparture;
+        let total = 0;
         if(route){
             listDepartureTime = route.departureTime.map(time => 
                 <option>{time}:00</option>
@@ -86,6 +93,7 @@ class ChairNumber extends React.Component{
             listGetOnDeparture = route.getOnDeparture.map(item => 
                 <option>{item}</option>
             )
+            total = route.fare * numberOfTicket;
         }
 
 
@@ -117,19 +125,25 @@ class ChairNumber extends React.Component{
                         break;
                     }
                 }
-                if(numberChair === i && check === false){
-                    listChair.push(
-                        <div className="col-md-2 mb-2">
-                            <Button className="w-100 bg-secondary" onClick={() => this.handleClick(i)}>{i}</Button>
-                        </div>
-                    )
-                }
-                if(numberChair !== i && check === false){
-                    listChair.push(
-                        <div className="col-md-2 mb-2">
-                            <Button className="w-100" onClick={() => this.handleClick(i)}>{i}</Button>
-                        </div>
-                    )
+                if(check === false){
+                    for(let k = 0; k < numberChair.length; k +=1){
+                        if(numberChair[k] === i){
+                            listChair.push(
+                                <div className="col-md-2 mb-2">
+                                    <Button className="w-100 bg-secondary" onClick={() => this.handleClick(i)}>{i}</Button>
+                                </div>
+                            )
+                            check = true;
+                            break;
+                        }
+                    }
+                    if(check === false){
+                        listChair.push(
+                            <div className="col-md-2 mb-2">
+                                <Button className="w-100" onClick={() => this.handleClick(i)}>{i}</Button>
+                            </div>
+                        )
+                    }
                 }
             }
         }
@@ -137,7 +151,8 @@ class ChairNumber extends React.Component{
             <div className="container mt-5">
                 <div className="row ">
                     <div className="col-md-5">
-                        <div className="border border-success rounded mt-4">
+                        <div className=" font-weight-bold text-success"> Chọn Thông Tin Hành Trình</div>
+                        <div className="border border-success rounded">
                             <Form onSubmit={this.handleSubmit}>
                                 <div className="row mt-3 mb-4 ml-3 mr-3">
                                     <div className="col-md-12">
@@ -160,12 +175,12 @@ class ChairNumber extends React.Component{
                                         </Form.Group>
                                     </div>
                                 </div>
-                                <div className="row text-center"><div className="col-md-12 mb-4"><Button className="w-50 font-weight-bold" type="submit" variant="success"> Tiếp Theo </Button></div></div>
+                                <div className="row text-center"><div className="col-md-12 mb-3"><Button className="w-50 font-weight-bold" type="submit" variant="success"> Tiếp Theo </Button></div></div>
                             </Form>
                         </div>
                     </div>
                     <div className="col-md-7">
-                    <div className="font-weight-bold text-success"> Chọn Ghế </div>
+                        <div className=" font-weight-bold text-success"> Chọn Ghế  <span className="float-right">Tổng tiền: {total}vnd</span></div>
                         <div className="border border-success rounded">
                             <div className="row mt-3 mb-3 ml-3 mr-3">
                                <div className="col-md-12">

@@ -154,7 +154,7 @@ class CustomerInfor extends React.Component{
                     <div className="col-md-6">
                     <div className="mb-2 font-weight-bold text-success"> MỘT SỐ ĐIỀU KHOẢN CẦN LƯU Ý DÀNH CHO KHÁCH HÀNG</div>
                         <div className="border border-success rounded">
-                            <div className="row mt-3 mb-3 ml-3 mr-3">
+                            <div className="row mt-3 mb-4 ml-3 mr-3">
                                 <span> 
                                     <i class="material-icons ">filter_1</i>
                                     &nbsp;&nbsp;Quý khách vui lòng mang email có chứa mã vé đến văn phòng để đổi vé lên xe trước giờ xuất bến
