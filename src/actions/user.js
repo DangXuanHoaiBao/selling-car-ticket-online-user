@@ -274,6 +274,37 @@ function updateInfo(newUser){
     function updateResOfNavigation(data) { return { type: 'LOGIN_SUCCESS', data: data } }
 }
 
+function signUp_Login_With_Google_Facebook(fullName, email, password, urlImg, typeAccount){
+    console.log(urlImg);
+    return dispatch => {
+        fetch(`${config.apiUrlLocal}/users/check-to-signup-or-login`,{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'fullName': fullName,
+                'email': email,
+                'password': password,
+                'urlImg': urlImg,
+                'typeAccount': typeAccount
+            })
+        })
+        .then(handleResponse)
+        .then(res => {
+            localStorage.setItem('data', JSON.stringify(res));
+            dispatch(updateResOfNavigation(res));
+            history.push('/')
+        })
+        .catch(error => {
+            dispatch(alertActions.error(error.message));
+        });
+        
+    }
+    function updateResOfNavigation(data) { return { type: 'LOGIN_SUCCESS', data: data } }
+}
+
 function handleResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
@@ -302,7 +333,8 @@ const userActions = {
     signUp,
     login,
     logout,
-    updateInfo
+    updateInfo,
+    signUp_Login_With_Google_Facebook
 }
 
 export default userActions;

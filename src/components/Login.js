@@ -4,10 +4,10 @@ import React from "react";
 import {Form, Button} from "react-bootstrap";
 import userActions from "../actions/user";
 import { connect } from "react-redux";
-import{ToastContainer} from 'react-toastify';
+import { toast, Bounce,ToastContainer } from 'react-toastify';
 import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faFan } from '@fortawesome/free-solid-svg-icons';
-import {firebase} from '../config/firebase-config';
+import firebase from 'firebase';
 
 class Login extends React.Component{
 
@@ -21,6 +21,9 @@ class Login extends React.Component{
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleLoginWithFacebook = this.handleLoginWithFacebook.bind(this);
+        this.handleLoginWithGoogle = this.handleLoginWithGoogle.bind(this);
+        this.notify = this.notify.bind(this);
         const { logout } = this.props;
         logout(); 
     }
@@ -37,6 +40,17 @@ class Login extends React.Component{
               this.setState({email: username, rememberUsername: true});
           }
     }
+    notify = () => {
+        this.toastId = toast('Bạn đã tạo tài khoản này bằng tài khoản Google', {
+        transition: Bounce,
+        closeButton: true,
+        autoClose: 3000,
+        position: 'top-center',
+        type: 'error',
+        newestOnTop: true   
+      })};
+    
+
     handleChange(e){
         const {name} = e.target;
         let {value} = e.target;
@@ -54,6 +68,76 @@ class Login extends React.Component{
         const {login} = this.props;
         login(email, password, rememberUsername);
     }
+
+    handleLoginWithFacebook(){
+        const provider = new firebase.auth.FacebookAuthProvider();
+        const { signUp_Login_With_Google_Facebook } = this.props;
+        firebase.auth().useDeviceLanguage();
+        provider.setCustomParameters({
+            'display': 'popup'
+        });
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+            // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+            
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            
+            if(user){
+                console.log(user);
+                signUp_Login_With_Google_Facebook(user.displayName, user.email, '', user.photoURL, 'Facebook');
+                console.log("Đã đăng nhập");
+            }
+          
+          }).catch(function(error) {
+            this.notify();
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            // ...
+            console.log( errorMessage);
+          }.bind(this));
+
+    }
+
+    handleLoginWithGoogle(){
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const { signUp_Login_With_Google_Facebook } = this.props;
+        provider.addScope = 'https://www.googleapis.com/auth/admin.directory.userschema.readonly';
+        firebase.auth().useDeviceLanguage();
+        provider.setCustomParameters({
+            'login_hint': 'user@example.com'
+        });
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            console.log(token);
+            console.log(user);
+            if(user){
+                console.log(user);
+                signUp_Login_With_Google_Facebook(user.displayName, user.email, '', user.photoURL, 'Google')
+                console.log("Đã đăng nhập");
+            }
+            // ...
+          }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            console.log(errorCode, errorMessage, email, credential);
+            // ...
+          });
+          
+
+    }
+   
+    
 
     render(){
         const {isLogining} = this.props;
@@ -85,6 +169,12 @@ class Login extends React.Component{
                                             <FontAwesomeIcon className="ml-2 opacity-8" icon={faFan} spin/>
                                         }
                                     </Button>
+                                    <Button className="loginBtn loginBtn--facebook w-100" onClick={this.handleLoginWithFacebook}>
+                                        Đăng nhập với Facebook
+                                    </Button>
+                                    <Button className="loginBtn loginBtn--google w-100" onClick={this.handleLoginWithGoogle}>
+                                        Đăng nhập với Google
+                                    </Button>
                                    
                                 </Form>
                                 <ToastContainer />
@@ -101,6 +191,7 @@ const mapStateToProps = state => ({
 });
 const actionCreators = {
     login: userActions.login,
-    logout: userActions.logout
+    logout: userActions.logout,
+    signUp_Login_With_Google_Facebook: userActions.signUp_Login_With_Google_Facebook,
 }
 export default connect(mapStateToProps, actionCreators)(Login);
