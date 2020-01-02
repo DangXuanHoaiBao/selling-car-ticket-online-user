@@ -7,10 +7,9 @@ class SignUp extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            fullName: "",
             email: "",
             password: "",
-            errorEmail: "Bắt buộc",
-            errorPassword: "Bắt buộc"
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -18,18 +17,6 @@ class SignUp extends React.Component{
 
     handleChange(e){
         const {name, value} = e.target;
-        if(name === "email"){
-            const errorEmail = (value.length < 1 || value[0] === " ") ? "Email không hợp lệ" : ""
-            this.setState({
-                errorEmail
-            })
-        }
-        if(name === "password"){
-            const errorPassword = (value.length < 1 || value[0] === " ") ? "Password không hợp lệ" : ""
-            this.setState({
-                errorPassword
-            })
-        }
         this.setState({
             [name]: value
         })
@@ -37,38 +24,37 @@ class SignUp extends React.Component{
 
     handleSubmit(e){
         e.preventDefault();
-        const {password, email, errorEmail, errorPassword} = this.state;
-        if(errorEmail === "" && errorPassword === ""){
-            const {signUp} = this.props;
-            signUp(email, password);
-        }
+        const {password, email, fullName} = this.state;
+        const {signUp} = this.props;
+        signUp(fullName, email, password);
     }
   
 
     render(){
 
-        const {password, email, errorEmail, errorPassword} = this.state;
+        const {fullName, password, email} = this.state;
 
         return (
             <div>
-                <div className="container form-margin-top margin-bottom-10em">
+                <div className="container">
                     <div className="row justify-content-center mt-4 mb-4" >
                         <div className="col-md-6 border border-dark shadow rounded">
                             <div className="row justify-content-center">
                                 <div className="col-md-8 mt-5 mb-5">
                                     <h3 className="mb-3">Đăng Ký Tài Khoản</h3>
                                     <Form onSubmit={this.handleSubmit}>
-
                                         <Form.Group controlId="formFirstName">
-                                            <Form.Label>email</Form.Label>
-                                            <Form.Control type="text" placeholder="Tên đăng nhập" name="email" value={email} onChange={this.handleChange}/>
-                                            <Form.Text className="text-danger">{errorEmail}</Form.Text>
+                                            <Form.Label>Họ tên</Form.Label>
+                                            <Form.Control type="text"  name="fullName" value={fullName} onChange={this.handleChange} required/>
+                                        </Form.Group>
+                                        <Form.Group controlId="formFirstName">
+                                            <Form.Label>Email</Form.Label>
+                                            <Form.Control type="email"  name="email" value={email} onChange={this.handleChange} required/>
                                         </Form.Group>
 
                                         <Form.Group controlId="formBasicEmail">
-                                            <Form.Label>Password</Form.Label>
-                                            <Form.Control type="password" placeholder="Nhập password" name="password" value={password} onChange={this.handleChange}/>
-                                            <Form.Text className="text-danger">{errorPassword}</Form.Text>
+                                            <Form.Label>Mật khẩu</Form.Label>
+                                            <Form.Control type="password" name="password" value={password} onChange={this.handleChange} required/>
                                         </Form.Group>
                                         <Button className="w-100" variant="primary" type="submit">
                                             Đăng Ký

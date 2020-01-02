@@ -13,7 +13,17 @@ class Checkout extends React.Component {
   handleToken(token){
     const { checkout, createFare, createTrip } = this.props;
     const fareInfo = history.location.state;
-    createFare(fareInfo);
+    const data = JSON.parse(localStorage.getItem("data"));
+    let email;
+    if(data){
+      const user = data.user;
+      email = user.email;
+    }
+    else{
+      email = "";
+    }
+    console.log(email);
+    createFare(fareInfo, email);
     createTrip(fareInfo);
     checkout(token, fareInfo.fare);
   }
@@ -52,14 +62,14 @@ class Checkout extends React.Component {
                     </tr>
                     <tr>
                       <th>Tổng tiền:</th>
-                        <td>{fareInfo.fare}</td>
+                        <td>{fareInfo.fare * fareInfo.numberOfTicket}</td>
                     </tr>
                   </tbody>
                 </table>
                 <div className="row justify-content-center mb-3">
                   <StripeCheckout 
                     stripeKey="pk_test_RknGlS5ASjG2BGAygpTfcRh700UlGTyYsI"
-                    amount = {fareInfo.fare}  
+                    amount = {fareInfo.fare * fareInfo.numberOfTicket}  
                     token = {this.handleToken}
                   />
                 </div>

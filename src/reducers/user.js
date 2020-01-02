@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 export const getAllRoutes = (state = {}, action) => {
     switch(action.type){
         case "GET_ALL_ROUTES": {
@@ -40,6 +41,49 @@ export const getFaresOfUser = (state = {}, action) => {
             return {
                 ...state,
                 fares: action.fares
+            }
+        }
+        default: return state;
+    }
+}
+
+const data = JSON.parse(localStorage.getItem('data'));
+const stateDefault = data ? {isLogining: true, data: data} : {};
+export const login = (state = stateDefault, action) => {
+    switch(action.type){
+        case 'LOGIN_REQUEST': {
+            return {
+                ...state,
+                isLogining: true
+            }
+        }
+        case 'LOGIN_SUCCESS': {
+            return {
+                ...state,
+                message: action.message,
+                data: action.data
+            }
+        }
+        case 'LOGIN_FAIL': {
+            return {
+                ...state,
+                message: action.message,
+                isLogining: false
+            }
+        }
+        case 'LOGOUT': {
+            return {}
+        }
+        default: return state;
+    }
+}
+
+export const getAllComments = (state = {}, action) => {
+    switch(action.type){
+        case "GET_ALL_COMMENTS": {
+            return {
+                ...state,
+                comments: action.comments
             }
         }
         default: return state;
