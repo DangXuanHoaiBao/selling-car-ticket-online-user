@@ -17,7 +17,7 @@ class Home extends React.Component {
             route: "",
             dateDeparture: new Date(),
             numberOfTicket: 1,
-            errorRoute: "Tuyến đường không được bỏ trống",
+            errorRoute: "Bắt buộc",
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,7 +41,7 @@ class Home extends React.Component {
     handleChange(e){
         const {name, value} = e.target; 
         if(name === "route"){
-            const errorRoute = (value === "") ? "Tuyến đường không được bỏ trống": ""
+            const errorRoute = (value === "") ? "Bắt buộc": ""
             this.setState({
                 errorRoute
             })

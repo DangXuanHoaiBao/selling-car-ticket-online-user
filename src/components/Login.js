@@ -1,6 +1,8 @@
 
 import React from "react";
-import {Form, Button, Alert} from "react-bootstrap";
+import {Form, Button} from "react-bootstrap";
+import userActions from "../actions/user";
+import { connect } from "react-redux";
 
 class Login extends React.Component{
 
@@ -9,44 +11,44 @@ class Login extends React.Component{
         this.state = {
             email: "",
             password: "",
-            errors: {
-                email: "",
-                password: ""
-            }
+            errorEmail: "Bắt buộc",
+            errorPassword: "Bắt buộc"
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
    
     handleChange(e){
-        const {name } = e.target;
-        let errors = {
-            email: "",
-            password: ""
+        const {name, value} = e.target;
+        if(name === "email"){
+            const errorEmail = (value === "") ? "email không hợp lệ" : ""
+            this.setState({
+                errorEmail
+            })
         }
-        let {value} = e.target;
-        if(name === ""){
-            value = e.target.checked
+        if(name === "password"){
+            const errorPassword = (value === "") ? "password không hợp lệ" : ""
+            this.setState({
+                errorPassword
+            })
         }
-       
         this.setState({
-            [name]: value,
-            errors
+            [name]: value
         });
     }
 
     handleSubmit(e){
         e.preventDefault();
-        const {email, password, errors} = this.state;
-        // const {login} = this.props;
-        if(errors.email === "" && errors.password === "" && email.length > 0 && password.length > 0){
-            // login(email, password, rememberUsername);
+        const {email, password, errorEmail, errorPassword} = this.state;
+        if(errorEmail === "" && errorPassword === ""){
+            const {login} = this.props;
+            login(email, password);
         }
     }
 
     render(){
 
-        const {errors, email, password} = this.state;
+        const {errorEmail, errorPassword, email, password} = this.state;
         return (
             <div className="container form-margin-top">
                 <div className="row justify-content-center mt-4 mb-4" >
@@ -58,13 +60,13 @@ class Login extends React.Component{
                                     <Form.Group controlId="formBasicEmail">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control type="email" placeholder="Nhập email" name="email" value={email} onChange={this.handleChange} required/>
-                                        {errors.email ? <Form.Text className="text-danger">{errors.email}</Form.Text> : null}
+                                        <Form.Text className="text-danger">{errorEmail}</Form.Text>
                                     </Form.Group>
 
                                     <Form.Group controlId="formBasicPassword">
                                         <Form.Label>Mật Khẩu</Form.Label>
                                         <Form.Control type="password" placeholder="Nhập mật khẩu" name="password" value={password} onChange={this.handleChange} required/>
-                                        {errors.password ? <Form.Text className="text-danger">{errors.password}</Form.Text> : null}
+                                        <Form.Text className="text-danger">{errorPassword}</Form.Text>
                                     </Form.Group>
                                     <Form.Group controlId="formBasicCheckbox">
                                         <Form.Check type="checkbox" name="rememberUsername"  label="Nhớ tài khoản" onChange={this.handleChange}/>
@@ -82,5 +84,7 @@ class Login extends React.Component{
         );
     }
 }
-
-export default Login;
+const actionCreators = {
+    login: userActions.login
+}
+export default connect(null, actionCreators)(Login);

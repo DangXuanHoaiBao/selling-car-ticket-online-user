@@ -1,7 +1,7 @@
 import React from "react";
 import {Form, Button} from "react-bootstrap";
-// import history from "../helpers/history";
-// import { ToastContainer } from "react-toastify";
+import userActions from "../actions/user";
+import { connect } from "react-redux";
 
 class SignUp extends React.Component{
     constructor(props){
@@ -9,10 +9,8 @@ class SignUp extends React.Component{
         this.state = {
             email: "",
             password: "",
-            errors: {
-                email: "",
-                password: ""
-            }
+            errorEmail: "Bắt buộc",
+            errorPassword: "Bắt buộc"
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -20,38 +18,36 @@ class SignUp extends React.Component{
 
     handleChange(e){
         const {name, value} = e.target;
-        let errors = {
-            email: "",
-            password: ""
-        }
         if(name === "email"){
-            errors.email = (value.length < 1 || value[0] === " ") ? "Email không hợp lệ" : ""
+            const errorEmail = (value.length < 1 || value[0] === " ") ? "Email không hợp lệ" : ""
+            this.setState({
+                errorEmail
+            })
         }
         if(name === "password"){
-            errors.fullName = (value.length < 1 || value[0] === " ") ? "Password không hợp lệ" : ""
+            const errorPassword = (value.length < 1 || value[0] === " ") ? "Password không hợp lệ" : ""
+            this.setState({
+                errorPassword
+            })
         }
         this.setState({
-            [name]: value,
-            errors
+            [name]: value
         })
     }
 
     handleSubmit(e){
         e.preventDefault();
-        const {password, email, errors} = this.state;
-        const userAccount = {
-            password,
-            email
-        }
-        if(errors.email === "" && errors.password === "" && email.length !== 0 && password.length !== 0){
-            // history.push("/setting-account", userAccount);
+        const {password, email, errorEmail, errorPassword} = this.state;
+        if(errorEmail === "" && errorPassword === ""){
+            const {signUp} = this.props;
+            signUp(email, password);
         }
     }
   
 
     render(){
 
-        const {password, email, errors} = this.state;
+        const {password, email, errorEmail, errorPassword} = this.state;
 
         return (
             <div>
@@ -66,13 +62,13 @@ class SignUp extends React.Component{
                                         <Form.Group controlId="formFirstName">
                                             <Form.Label>email</Form.Label>
                                             <Form.Control type="text" placeholder="Tên đăng nhập" name="email" value={email} onChange={this.handleChange}/>
-                                            {errors.email ? <Form.Text className="text-danger">{errors.email}</Form.Text> : null}
+                                            <Form.Text className="text-danger">{errorEmail}</Form.Text>
                                         </Form.Group>
 
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Label>Password</Form.Label>
                                             <Form.Control type="password" placeholder="Nhập password" name="password" value={password} onChange={this.handleChange}/>
-                                            {errors.password ? <Form.Text className="text-danger">{errors.password}</Form.Text> : null}
+                                            <Form.Text className="text-danger">{errorPassword}</Form.Text>
                                         </Form.Group>
                                         <Button className="w-100" variant="primary" type="submit">
                                             Đăng Ký
@@ -88,5 +84,7 @@ class SignUp extends React.Component{
         );
     }
 }
-
-export default SignUp;
+const actionCreators = {
+    signUp: userActions.signUp
+}
+export default connect(null, actionCreators)(SignUp);

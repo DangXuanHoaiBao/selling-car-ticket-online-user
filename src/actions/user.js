@@ -149,13 +149,72 @@ function getTripByDepDesDateAndTime(departure, destination, date, time){
     }
 }
 
+function signUp(email, password){
+    return dispatch => {
+        fetch(`${apiServices.apiLocal}/users/sign-up`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
+        })
+        .then(res => {
+            res.json().then(message => {
+                alert(message);
+                if(res.status === 200){
+                    history.push("/login")
+                }
+                else{
+                    history.push("/sign-up")
+                }
+            })
+        })
+    }
+}
+
+function login(email, password){
+    return dispatch => {
+        fetch(`${apiServices.apiLocal}/users/login`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
+        })
+        .then(res => {
+            res.json().then(data=>{
+                if(res.status === 200){
+                    console.log(data.user);
+                    localStorage.setItem("username", data.user.username);
+                    history.push("/");
+                }
+            })
+        })
+        .catch(error => {
+            // dispatch(alertActions.error(error.message));
+            // dispatch(isFail(error.message));
+            console.log(error)
+        });
+    }
+}
+
 const userActions = {
     checkout,
     getAllRoutes,
     getRouteByDepartureAndDestination,
     createFare,
     createTrip,
-    getTripByDepDesDateAndTime
+    getTripByDepDesDateAndTime,
+    signUp,
+    login
 }
 
 export default userActions;

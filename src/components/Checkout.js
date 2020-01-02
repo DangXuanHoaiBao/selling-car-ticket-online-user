@@ -13,9 +13,9 @@ class Checkout extends React.Component {
   handleToken(token){
     const { checkout, createFare, createTrip } = this.props;
     const fareInfo = history.location.state;
-    checkout(token, fareInfo.fare);
     createFare(fareInfo);
     createTrip(fareInfo);
+    checkout(token, fareInfo.fare);
   }
 
   render(){
