@@ -10,7 +10,7 @@ import alertActions from '../actions/alert';
 function checkout(token, fare){
     return dispatch => {
    
-        fetch(`${apiServices.apiLocal}/checkout`, {
+        fetch(`${apiServices.apiHeroku}/checkout`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -39,7 +39,7 @@ function getAllRoutes(){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/get-all-routes`, {
+        fetch(`${apiServices.apiHeroku}/get-all-routes`, {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -64,7 +64,7 @@ function getRouteByDepartureAndDestination(departure, destination){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/get-route-by-departure-and-destination`, {
+        fetch(`${apiServices.apiHeroku}/get-route-by-departure-and-destination`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -87,7 +87,7 @@ function getRouteByDepartureAndDestination(departure, destination){
 
 function createTrip(fareInfo){
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/create-trip`, {
+        fetch(`${apiServices.apiHeroku}/create-trip`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -105,7 +105,7 @@ function createTrip(fareInfo){
 
 function createFare(fareInfo, email){
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/create-fare`, {
+        fetch(`${apiServices.apiHeroku}/create-fare`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -130,7 +130,7 @@ function getTripByDepDesDateAndTime(departure, destination, date, time){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/get-trip-by-dep-des-date-and-time`, {
+        fetch(`${apiServices.apiHeroku}/get-trip-by-dep-des-date-and-time`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -158,7 +158,7 @@ function getTripByDepDesDateAndTime(departure, destination, date, time){
 
 function signUp(fullName, email, password){
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/users/sign-up`, {
+        fetch(`${apiServices.apiHeroku}/users/sign-up`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -335,7 +335,7 @@ function getFaresOfUser(){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/users/get-fares`, {
+        fetch(`${apiServices.apiHeroku}/users/get-fares`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -357,7 +357,7 @@ function getFaresOfUser(){
 
 function addComment(comment, user){
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/users/add-comment`, {
+        fetch(`${apiServices.apiHeroku}/users/add-comment`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -384,7 +384,7 @@ function getAllComments(){
         }
     }
     return dispatch => {
-        fetch(`${apiServices.apiLocal}/users/get-all-comments`, {
+        fetch(`${apiServices.apiHeroku}/users/get-all-comments`, {
             method: "GET",
             headers: {
                 "Accept": "application/json",

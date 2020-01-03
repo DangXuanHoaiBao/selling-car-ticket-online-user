@@ -79,6 +79,7 @@ class SchedulesDetail extends React.Component {
         }
 
         let listTrip;
+        console.log(route);
         if(route){
             listTrip = route.departureTime.map((time, i) => 
                 <tr>
