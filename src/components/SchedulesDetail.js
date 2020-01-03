@@ -10,73 +10,75 @@ class SchedulesDetail extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            comment: "",
-            errorComment: "Chưa nhập bình luận"
-        }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleClickComment = this.handleClickComment.bind(this);
+        // this.state = {
+        //     comment: "",
+        //     errorComment: "Chưa nhập bình luận"
+        // }
+        // this.handleChange = this.handleChange.bind(this);
+        // this.handleClickComment = this.handleClickComment.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
     componentWillMount(){
         const {departure, destination} = history.location.state;
-        const {getRouteByDepartureAndDestination, getAllComments} = this.props;
+        const {getRouteByDepartureAndDestination} = this.props;
         getRouteByDepartureAndDestination(departure, destination);
-        getAllComments();
+        //getAllComments();
     }
 
     handleClick(departure, destination){
         history.push("/", {departure, destination});
     }
 
-    handleChange(e){
-        const {name, value} = e.target;
-        if(name === "comment"){
-            const errorComment = (value === "") ? "Chưa nhập bình luận" : "";
-            this.setState({
-                errorComment
-            })
-        }
-        this.setState({
-            [name]: value
-        })
-    }
+    // handleChange(e){
+    //     const {name, value} = e.target;
+    //     if(name === "comment"){
+    //         const errorComment = (value === "") ? "Chưa nhập bình luận" : "";
+    //         this.setState({
+    //             errorComment
+    //         })
+    //     }
+    //     this.setState({
+    //         [name]: value
+    //     })
+    // }
 
-    handleClickComment(){
-        const {errorComment, comment} = this.state;
-        const data = JSON.parse(localStorage.getItem("data"));
-        if(!data){
-            history.push("/login");
-        }
-        else{
-            if(errorComment === ""){
-                const user = data.user;
-                const {addComment} = this.props;
-                addComment(comment, user);
-            }
-        }
-    }
+    // handleClickComment(e){
+    //     e.preventDefault();
+    //     const {errorComment, comment} = this.state;
+    //     const data = JSON.parse(localStorage.getItem("data"));
+    //     if(!data){
+    //         history.push("/login");
+    //     }
+    //     else{
+    //         if(errorComment === ""){
+    //             const user = data.user;
+    //             const {addComment} = this.props;
+    //             addComment(comment, user);
+    //             history.push("/")
+    //         }
+    //     }
+    // }
     
     render(){
-        const {comment} = this.state;
-        const {route, comments} = this.props;
+        //const {comment} = this.state;
+        const {route} = this.props;
 
-        let listComment;
-        if(comments){
-            listComment = comments.map((comment, i) => 
-            <div>
-                <Toast>
-                    <Toast.Header>
-                        <Media object width={30} height={30} src={comment.urlImg} className="rounded-circle"/>
-                        <strong className="mr-auto">&emsp;{comment.fullName}</strong>
-                    </Toast.Header>
-                    <Toast.Body>{comment.comment}</Toast.Body>
-                </Toast>
-                <p/>
-            </div>
-            )
-        }
+        // let listComment;
+        // if(comments){
+        //     listComment = comments.map((comment, i) => 
+        //     <div>
+        //         <Toast>
+        //             <Toast.Header>
+        //                 <Media object width={30} height={30} src={comment.urlImg} className="rounded-circle"/>
+        //                 <strong className="mr-auto">&emsp;{comment.fullName}</strong>
+        //             </Toast.Header>
+        //             <Toast.Body>{comment.comment}</Toast.Body>
+        //         </Toast>
+        //         <p/>
+        //     </div>
+        //     )
+        // }
 
         let listTrip;
         if(route){
@@ -116,7 +118,7 @@ class SchedulesDetail extends React.Component {
                             </tbody>
                         </Table>
 
-                        <div class="col-md-8 col-md-offset-3">
+                        {/* <div class="col-md-8 col-md-offset-3">
                             <h5>Bình luận</h5>
                             <div class="panel panel-info">
                                 <div class="panel-body">
@@ -135,7 +137,7 @@ class SchedulesDetail extends React.Component {
                         </div>
                         <div className="col-md-5 mt-3 mb-3">
                             {listComment}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
@@ -145,11 +147,11 @@ class SchedulesDetail extends React.Component {
 
 const mapStateToProps = state => ({
     route: state.getRouteByDepartureAndDestination.route,
-    comments: state.getAllComments.comments
+    //comments: state.getAllComments.comments
 })
 const actionCreators = {
     getRouteByDepartureAndDestination: userActions.getRouteByDepartureAndDestination,
-    getAllComments: userActions.getAllComments
+    //getAllComments: userActions.getAllComments
 }
 
 export default connect(mapStateToProps, actionCreators)(SchedulesDetail);

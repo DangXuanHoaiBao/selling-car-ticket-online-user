@@ -1,5 +1,6 @@
 import React from "react";
 import {Form, Button, Image} from "react-bootstrap";
+import {ToastContainer} from "react-toastify";
 import DatePicker from "react-datepicker";
 import {connect} from "react-redux";
 import history from "../helpers/history";
@@ -69,6 +70,7 @@ class Home extends React.Component {
     handleSubmit(e){
         e.preventDefault();
         const {route, numberOfTicket, dateDeparture, errorRoute, errorDateDeparture} = this.state
+        console.log(route);
         const departure = route.slice(0, route.lastIndexOf("--->"));
         const destination = route.slice(route.lastIndexOf("--->") + 4, route.length);
         const day = dateDeparture. getDate();
@@ -158,6 +160,7 @@ class Home extends React.Component {
                         <Image src={img_2} fluid />
                     </div>
                 </div>
+                <ToastContainer />
             </div>
         )
     }

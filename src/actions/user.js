@@ -22,8 +22,8 @@ function checkout(token, fare){
         })
         .then(res => {
             res.json().then(message => {
-                alert(message);
                 history.push("/");
+                dispatch(alertActions.success(message));
             })
         })
         .catch(error => console.log(error));
