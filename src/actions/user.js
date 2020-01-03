@@ -2,7 +2,6 @@
 /* eslint-disable no-restricted-globals */
 import apiServices from "../helpers/apiServices";
 import history from "../helpers/history";
-import config from "../config/api-config";
 import authHeader from '../helpers/auth-header';
 import alertActions from '../actions/alert';
 
@@ -214,7 +213,7 @@ function login(email, password, rememberUsername){
         else{
             localStorage.removeItem('username');
         }
-        fetch(`${config.apiHeroku}/users/login`, {
+        fetch(`${apiServices.apiHeroku}/users/login`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -248,7 +247,7 @@ function logout(){
 
 function updateInfo(newUser){
     return dispatch => {
-        fetch(`${config.apiHeroku}/users/update-info`,{
+        fetch(`${apiServices.apiHeroku}/users/update-info`,{
             method: 'POST',
             headers: {
                 ...authHeader(),
@@ -280,7 +279,7 @@ function updateInfo(newUser){
 function signUp_Login_With_Google_Facebook(fullName, email, password, urlImg, typeAccount){
     console.log(email);
     return dispatch => {
-        fetch(`${config.apiHeroku}/users/check-to-signup-or-login`,{
+        fetch(`${apiServices.apiHeroku}/users/check-to-signup-or-login`,{
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -310,7 +309,7 @@ function signUp_Login_With_Google_Facebook(fullName, email, password, urlImg, ty
 
 function changePassword(oldPassword, newPassword, confirmPassword){
     return dispatch => {
-        fetch(`${config.apiHeroku}/users/change-password`,{
+        fetch(`${apiServices.apiHeroku}/users/change-password`,{
             method: 'POST',
             headers: {
                 ...authHeader(),

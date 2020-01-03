@@ -161,8 +161,8 @@ class ChairNumber extends React.Component{
                 <div className="container mt-5">
                     <div className="row ">
                         <div className="col-md-5">
-                            <div className=" font-weight-bold text-success"> Chọn Thông Tin Hành Trình</div>
-                            <div className="border border-success rounded">
+                            <div className=" font-weight-bold"> Chọn Thông Tin Hành Trình</div>
+                            <div className="border border-success rounded bg-light">
                                 <Form onSubmit={this.handleSubmit}>
                                     <div className="row mt-3 mb-4 ml-3 mr-3">
                                         <div className="col-md-12">
@@ -190,8 +190,8 @@ class ChairNumber extends React.Component{
                             </div>
                         </div>
                         <div className="col-md-7">
-                            <div className=" font-weight-bold text-success"> Chọn Ghế  <span className="float-right">Tổng tiền: {total}vnd</span></div>
-                            <div className="border border-success rounded">
+                            <div className=" font-weight-bold"> Chọn Ghế  <span className="float-right">Tổng tiền: {total}vnd</span></div>
+                            <div className="border border-success rounded bg-light">
                                 <div className="row mt-3 mb-3 ml-3 mr-3">
                                 <div className="col-md-12">
                                 <div className="row">

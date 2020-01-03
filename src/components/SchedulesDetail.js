@@ -79,12 +79,14 @@ class SchedulesDetail extends React.Component {
         }
 
         let listTrip;
-        console.log(route);
         if(route){
-            listTrip = route.departureTime.map((time, i) => 
+            const result = Object.keys(route.departureTime).map(function(key) {
+                return [Number(key), route.departureTime[key]];
+            });
+            listTrip = result.map((time, i) => 
                 <tr>
                     <td>{i + 1}</td>
-                    <td>{time}:00</td>
+                    <td>{time[1].time}:00</td>
                     <td>{route.departure} ---> {route.destination}</td>
                     <td>{route.distance}km</td>
                     <td>{route.fare}vnd</td>
