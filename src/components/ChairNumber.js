@@ -1,5 +1,7 @@
+/* eslint-disable quotes */
 import React from "react";
 import {Form, Button} from "react-bootstrap";
+import { toast, Bounce,ToastContainer } from 'react-toastify';
 import { connect } from "react-redux";
 import history from "../helpers/history";
 import "react-datepicker/dist/react-datepicker.css";
@@ -70,7 +72,7 @@ class ChairNumber extends React.Component{
         const {errorDepartureTime, errorGetOnDeparture, departureTime, getOnDeparture, numberChair} = this.state;
         const {route} = this.props;
         if(numberChair.length !== Number(numberOfTicket)){
-            alert("Bạn chưa chọn đủ số ghế");
+            this.notify();
         }
         if(errorDepartureTime === ""  && errorGetOnDeparture === "" && numberChair.length === Number(numberOfTicket)){
             const fare = route.fare;
@@ -78,6 +80,16 @@ class ChairNumber extends React.Component{
             history.push("/customer-infor", {departure, destination, date, numberOfTicket, time, getOnDeparture, numberChair, fare});  
         }
     }
+    notify = () => {
+        this.toastId = toast("Bạn chưa chọn ghế", {
+        transition: Bounce,
+        closeButton: true,
+        autoClose: 3000,
+        position: 'top-center',
+        type: 'error',
+        newestOnTop: true   
+    })};
+    
 
     render(){
         const {route} = this.props;
@@ -86,12 +98,21 @@ class ChairNumber extends React.Component{
         let listDepartureTime;
         let listGetOnDeparture;
         let total = 0;
+       
         if(route){
-            listDepartureTime = route.departureTime.map(time => 
-                <option>{time}:00</option>
+            console.log(route)
+            var result1 = Object.keys(route.departureTime).map(function(key) {
+                return [Number(key), route.departureTime[key]];
+              });
+            console.log(result1)
+            listDepartureTime = result1.map(time => 
+                    <option>{time[1].time}:00</option>
             )
-            listGetOnDeparture = route.getOnDeparture.map(item => 
-                <option>{item}</option>
+            var result2 = Object.keys(route.getOnDeparture).map(function(key) {
+                return [Number(key), route.getOnDeparture[key]];
+              });
+            listGetOnDeparture = result2.map(item => 
+                <option>{item[1].departure}</option>
             )
             total = route.fare * numberOfTicket;
         }
@@ -153,7 +174,7 @@ class ChairNumber extends React.Component{
                     <div className="row ">
                         <div className="col-md-5">
                             <div className=" font-weight-bold text-success"> Chọn Thông Tin Hành Trình</div>
-                            <div className="border border-success rounded">
+                            <div className="border border-success rounded background-color">
                                 <Form onSubmit={this.handleSubmit}>
                                     <div className="row mt-3 mb-4 ml-3 mr-3">
                                         <div className="col-md-12">
@@ -182,7 +203,7 @@ class ChairNumber extends React.Component{
                         </div>
                         <div className="col-md-7">
                             <div className=" font-weight-bold text-success"> Chọn Ghế  <span className="float-right">Tổng tiền: {total}vnd</span></div>
-                            <div className="border border-success rounded">
+                            <div className="border border-success rounded background-color">
                                 <div className="row mt-3 mb-3 ml-3 mr-3">
                                 <div className="col-md-12">
                                 <div className="row">
@@ -192,6 +213,7 @@ class ChairNumber extends React.Component{
                                 </div>
                             </div>
                         </div>
+                        <ToastContainer />
                     </div>
                     
                 </div>
