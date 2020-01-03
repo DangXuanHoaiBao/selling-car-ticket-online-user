@@ -214,7 +214,7 @@ function login(email, password, rememberUsername){
         else{
             localStorage.removeItem('username');
         }
-        fetch(`${config.apiUrlLocal}/users/login`, {
+        fetch(`${config.apiHeroku}/users/login`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -248,7 +248,7 @@ function logout(){
 
 function updateInfo(newUser){
     return dispatch => {
-        fetch(`${config.apiUrlLocal}/users/update-info`,{
+        fetch(`${config.apiHeroku}/users/update-info`,{
             method: 'POST',
             headers: {
                 ...authHeader(),
@@ -280,7 +280,7 @@ function updateInfo(newUser){
 function signUp_Login_With_Google_Facebook(fullName, email, password, urlImg, typeAccount){
     console.log(email);
     return dispatch => {
-        fetch(`${config.apiUrlLocal}/users/check-to-signup-or-login`,{
+        fetch(`${config.apiHeroku}/users/check-to-signup-or-login`,{
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -310,7 +310,7 @@ function signUp_Login_With_Google_Facebook(fullName, email, password, urlImg, ty
 
 function changePassword(oldPassword, newPassword, confirmPassword){
     return dispatch => {
-        fetch(`${config.apiUrlLocal}/users/change-password`,{
+        fetch(`${config.apiHeroku}/users/change-password`,{
             method: 'POST',
             headers: {
                 ...authHeader(),
