@@ -2,6 +2,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
+import Private from "../helpers/private";
 
 import Home from "./Home";
 import CustomerInfor from "./CustomerInfor";
@@ -12,42 +13,36 @@ import ChairNumber from "./ChairNumber";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import UserInfo from "./UserInfo";
+import ChangePassword from "./ChangePassword";
 import Detail from "./User/Detail";
+import Discount from "./Discount";
+import DiscountDetail from "./DiscountDetail";
 
 class Main extends React.Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/sign-up">
-          <SignUp />
-        </Route>
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route exact path="/customer-infor">
-          <CustomerInfor />
-        </Route>
-        <Route exact path="/checkout">
-          <Checkout />
-        </Route>
+        <Private.IsNotLogin exact path="/sign-up" component={SignUp}/>
+        <Private.IsNotLogin exact path="/login" component={Login}/>
+        <Route exact path="/customer-infor" component={CustomerInfor}/>
+        <Route exact path="/checkout" component={Checkout}/>
         <Route exact path="/schedules">
           <Schedules />
         </Route>
-        <Route exact path="/schedules-detail">
-          <SchedulesDetail />
-        </Route>
-        <Route exact path="/chair-number">
-          <ChairNumber />
-        </Route>
+        <Route exact path="/schedules-detail" component={SchedulesDetail}/>
+        <Route exact path="/chair-number" component={ChairNumber}/>
         <Route exact path="/">
           <Home />
         </Route>
-        <Route exact path="/user-info">
-          <UserInfo />
+        <Private.IsLogin exact path="/user-info" component={UserInfo}/>
+        <Private.IsLogin exact path="/change-password" component={ChangePassword}/>
+        <Private.IsLogin exact path="/user-history" component={Detail}/>
+      
+        <Route exact path="/discount">
+          <Discount />
         </Route>
-        <Route exact path="/user-detail">
-          <Detail />
-        </Route>
+        <Route exact path="/discount-detail/:id" component={DiscountDetail}/>
+
       </Switch>
     );
   }

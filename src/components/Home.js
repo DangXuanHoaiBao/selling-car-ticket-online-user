@@ -6,7 +6,7 @@ import history from "../helpers/history";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/Home.css";
 import img_1 from "../images/3.jpg";
-import img_2 from "../images/2.jpg";
+import img_2 from "../images/background2.png";
 import userActions from "../actions/user";
  
 class Home extends React.Component {
@@ -35,8 +35,12 @@ class Home extends React.Component {
             })
         }
         else{
-            getAllRoutes();
+            getAllRoutes();    
         }
+    }
+    componentWillReceiveProps(newProp){
+        const { routes } = newProp;
+        this.setState({ route: `${routes[0].departure}--->${routes[0].destination}`});
     }
     
     handleChange(e){
@@ -65,33 +69,34 @@ class Home extends React.Component {
     handleSubmit(e){
         e.preventDefault();
         const {route, numberOfTicket, dateDeparture, errorRoute, errorDateDeparture} = this.state
-        if(errorRoute === "" && errorDateDeparture === ""){
-            const departure = route.slice(0, route.lastIndexOf("--->"));
-            const destination = route.slice(route.lastIndexOf("--->") + 4, route.length);
-            const day = dateDeparture. getDate();
-            const month = dateDeparture. getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12.
-            const year = dateDeparture. getFullYear();
-            const date = {
-                d: day,
-                m: month,
-                y: year
-            }
-            history.push("/chair-number", {departure, destination, numberOfTicket, date});
+        const departure = route.slice(0, route.lastIndexOf("--->"));
+        const destination = route.slice(route.lastIndexOf("--->") + 4, route.length);
+        const day = dateDeparture. getDate();
+        const month = dateDeparture. getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12.
+        const year = dateDeparture. getFullYear();
+        const date = {
+            d: day,
+            m: month,
+            y: year
         }
+        history.push("/chair-number", {departure, destination, numberOfTicket, date});
     }
 
     render(){
 
-        const {dateDeparture, numberOfTicket, route, errorRoute, errorDateDeparture} = this.state;
         const {routes} = this.props;
-
-        let listRoutes;
+        const {dateDeparture, numberOfTicket, route, errorRoute, errorDateDeparture} = this.state;
+        
+        let listRoutes=[];
         if(routes){
-            listRoutes = routes.map((route, key) =>
-                <option key={key}>{route.departure}--->{route.destination}</option>
-            )
-        }
+            for(let i=1; i<routes.length; i++){
+                listRoutes.push(
+                    <option>{routes[i].departure}--->{routes[i].destination}</option>
+                );
+            }
 
+        }
+       
         return (
             <div className="container ">
                 <div className="row ">
@@ -104,10 +109,9 @@ class Home extends React.Component {
                                         <Form.Group controlId="formLocationDeparture">
                                             <Form.Label className="font-weight-bold">Tuyến Đường</Form.Label>
                                             <Form.Control as="select" name="route" value={route} onChange={this.handleChange}>
-                                                <option></option>
+                                                <option value={route}>{route}</option>
                                                 {listRoutes}
                                             </Form.Control>
-                                            <Form.Text className="text-danger">{errorRoute}</Form.Text>
                                         </Form.Group>
                                     </div>
                                 

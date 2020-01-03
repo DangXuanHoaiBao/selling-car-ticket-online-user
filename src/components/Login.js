@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 
 import React from "react";
-import {Form, Button} from "react-bootstrap";
+import {FormGroup, Form, Button, Input, Label, Row, Col, Card, CardBody} from "reactstrap";
 import userActions from "../actions/user";
 import { connect } from "react-redux";
 import { toast, Bounce,ToastContainer } from 'react-toastify';
@@ -144,45 +144,58 @@ class Login extends React.Component{
         const {email, password, rememberUsername} = this.state;
 
         return (
-            <div className="container">
-                <div className="row justify-content-center mt-4 mb-4" >
-                    <div className="col-md-6 border border-dark shadow rounded">
-                        <div className="row justify-content-center">
-                            <div className="col-md-8 mt-5 mb-5">
-                                <h3 className="mb-3">Đăng Nhập</h3>
-                                <Form onSubmit={this.handleSubmit}>
-                                    <Form.Group controlId="formBasicEmail">
-                                        <Form.Label>Email</Form.Label>
-                                        <Form.Control type="email" name="email" value={email} onChange={this.handleChange} required/>
-                                    </Form.Group>
+          
+            <div className="background-img">
+                <div className="container" >
+                    <Row>
+                    <Col md="3" />
+                    <Col md="6" className="content-info"><h2>Đăng nhập</h2></Col>
+                    <Col md="3" />
+                    </Row>
+                    <Row >
+                    <Col md="4" />
+                    <Col md="4">
+                        <Card className="main-card mb-3">
+                            
+                        <CardBody>
+                            <Form onSubmit={this.handleSubmit}>
+                                <FormGroup controlId="formBasicEmail">
+                                    <Label>Email</Label>
+                                    <Input type="email" name="email" value={email} onChange={this.handleChange} required/>
+                                </FormGroup>
 
-                                    <Form.Group controlId="formBasicPassword">
-                                        <Form.Label>Mật Khẩu</Form.Label>
-                                        <Form.Control type="password" name="password" value={password} onChange={this.handleChange} required/>
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicCheckbox">
-                                        <Form.Check type="checkbox" name="rememberUsername"  label="Nhớ tài khoản" checked={rememberUsername} onChange={this.handleChange}/>
-                                    </Form.Group>
-                                    <Button className="w-100" variant="primary" type="submit">
-                                        Đăng Nhập
-                                        {isLogining === true &&
-                                            <FontAwesomeIcon className="ml-2 opacity-8" icon={faFan} spin/>
-                                        }
-                                    </Button>
-                                    <Button className="loginBtn loginBtn--facebook w-100" onClick={this.handleLoginWithFacebook}>
-                                        Đăng nhập với Facebook
-                                    </Button>
-                                    <Button className="loginBtn loginBtn--google w-100" onClick={this.handleLoginWithGoogle}>
-                                        Đăng nhập với Google
-                                    </Button>
-                                   
-                                </Form>
-                                <ToastContainer />
-                            </div>
-                        </div>
-                    </div>
+                                <FormGroup controlId="formBasicPassword">
+                                    <Label>Mật Khẩu</Label>
+                                    <Input type="password" name="password" value={password} onChange={this.handleChange} required/>
+                                </FormGroup>
+                                <FormGroup check>
+                                    <Label check>
+                                    <Input type="checkbox" name="rememberUsername"  checked={rememberUsername} onChange={this.handleChange}/>
+                                    Nhớ tài khoản
+                                    </Label>
+                                </FormGroup>
+                                <Button className="w-100" variant="primary" type="submit">
+                                    Đăng Nhập
+                                    {isLogining === true &&
+                                        <FontAwesomeIcon className="ml-2 opacity-8" icon={faFan} spin/>
+                                    }
+                                </Button>
+                                <Button className="loginBtn loginBtn--facebook w-100" onClick={this.handleLoginWithFacebook}>
+                                    Đăng nhập với Facebook
+                                </Button>
+                                <Button className="loginBtn loginBtn--google w-100" onClick={this.handleLoginWithGoogle}>
+                                    Đăng nhập với Google
+                                </Button>
+                                
+                            </Form>
+                        </CardBody>
+                        </Card>
+                    </Col>
+                    <Col md="4" />
+                    </Row>
+                    <ToastContainer />
                 </div>
-            </div>
+        </div>
         );
     }
 }

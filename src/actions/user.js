@@ -170,17 +170,19 @@ function signUp(fullName, email, password){
                 password
             })
         })
-        .then(res => {
-            res.json().then(message => {
-                alert(message);
-                if(res.status === 200){
-                    history.push("/login")
-                }
-                else{
-                    history.push("/sign-up")
-                }
-            })
-        })
+        .then(handleResponse)
+        .then(
+            res => {
+                history.push('/login');
+                dispatch(alertActions.success(res.message));
+                
+    
+            }
+        ).catch(error => {
+            console.log(error);
+            dispatch(alertActions.error(error));
+            history.push('/sign-up');
+        });
     }
 }
 
@@ -276,7 +278,7 @@ function updateInfo(newUser){
 }
 
 function signUp_Login_With_Google_Facebook(fullName, email, password, urlImg, typeAccount){
-    console.log(urlImg);
+    console.log(email);
     return dispatch => {
         fetch(`${config.apiUrlLocal}/users/check-to-signup-or-login`,{
             method: 'POST',
@@ -304,6 +306,33 @@ function signUp_Login_With_Google_Facebook(fullName, email, password, urlImg, ty
         
     }
     function updateResOfNavigation(data) { return { type: 'LOGIN_SUCCESS', data: data } }
+}
+
+function changePassword(oldPassword, newPassword, confirmPassword){
+    return dispatch => {
+        fetch(`${config.apiUrlLocal}/users/change-password`,{
+            method: 'POST',
+            headers: {
+                ...authHeader(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify ({
+                oldPassword, 
+                newPassword, 
+                confirmPassword
+            })
+        })
+        .then(handleResponse)
+        .then(
+            res => {
+                dispatch(alertActions.success(res.message));
+                history.push('/');
+            },
+            error => {
+                dispatch(alertActions.error(error));
+            })
+        .catch(errors => console.log(errors))
+    };
 }
 
 function handleResponse(response) {
@@ -413,6 +442,8 @@ const userActions = {
     getFaresOfUser,
     logout,
     updateInfo,
+    signUp_Login_With_Google_Facebook,
+    changePassword,
     addComment,
     getAllComments,
     signUp_Login_With_Google_Facebook

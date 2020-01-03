@@ -634,7 +634,19 @@
 .btn-close{
   margin-left: -2em;
 }
+.background-img{
+  background: url(../images/background2.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
+
+.background-color{
+  background-color: #c8cbd3;
+  opacity: 90%;
+}
 .pb-cmnt-container {
   font-family: Lato;
   margin-top: 100px;
@@ -645,4 +657,11 @@
   height: 130px;
   width: 100%;
   border: 1px solid #F2F2F2;
+}
+
+.discount-detail{
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 3px;
+  padding: 3px;
 }

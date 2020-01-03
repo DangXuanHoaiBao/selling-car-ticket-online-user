@@ -33,7 +33,9 @@ class AlertPage extends React.Component {
 
 
     render() {
+        
         const { alert } = this.props;
+        console.log(alert.message);
         return (
          <div>
             {alert.message &&
