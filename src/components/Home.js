@@ -69,6 +69,7 @@ class Home extends React.Component {
     handleSubmit(e){
         e.preventDefault();
         const {route, numberOfTicket, dateDeparture, errorRoute, errorDateDeparture} = this.state
+        console.log(route);
         const departure = route.slice(0, route.lastIndexOf("--->"));
         const destination = route.slice(route.lastIndexOf("--->") + 4, route.length);
         const day = dateDeparture. getDate();
